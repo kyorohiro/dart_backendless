@@ -6,6 +6,5 @@ library dart_backendless.example;
 import 'package:hetima_backendless/backendless.dart';
 
 main() {
-  var awesome = new Awesome();
-  print('awesome: ${awesome.isAwesome}');
+  print('awesome: ');
 }

@@ -1,3 +1,4 @@
 library hetima_backendless;
+import 'dart:async';
 
-export 'src/dart_backendless_base.dart';
+part 'src/dart_backendless_base.dart';

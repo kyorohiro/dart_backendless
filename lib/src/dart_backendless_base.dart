@@ -1,9 +1,17 @@
 // Copyright (c) 2016, <your name>. All rights reserved. Use of this source code
 // is governed by a BSD-style license that can be found in the LICENSE file.
 
-library hetima_backendless.base;
+part of hetima_backendless;
 
-/// Checks if you are awesome. Spoiler: you are.
-class Awesome {
-  bool get isAwesome => true;
+
+abstract class Builder {
+  Future<HetimaRequester> createRequester();
+}
+
+abstract class HetimaRequester {
+   Future<HetimaResponse> request();
+}
+
+class HetimaResponse {
+
 }
