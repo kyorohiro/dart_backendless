@@ -3,7 +3,7 @@
 
 library dart_backendless.example;
 
-import 'package:dart_backendless/dart_backendless.dart';
+import 'package:hetima_backendless/backendless.dart';
 
 main() {
   var awesome = new Awesome();

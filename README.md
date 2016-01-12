@@ -1,19 +1,9 @@
 # dart_backendless
 
-A library for Dart developers. It is awesome.
+A library for Dart developers.
+HetimaBackendless is Rest api sample implement for backendless.(https://backendless.com)
+It will be executable on dart:io and html and flutter.
 
 ## Usage
 
-A simple usage example:
-
-    import 'package:dart_backendless/dart_backendless.dart';
-
-    main() {
-      var awesome = new Awesome();
-    }
-
 ## Features and bugs
-
-Please file feature requests and bugs at the [issue tracker][tracker].
-
-[tracker]: http://example.com/issues/replaceme
