@@ -10,13 +10,31 @@ import 'package:unittest/unittest.dart';
 main() async {
   print("## --1--");
   group("", () {
-    test("aa", () async {
+    test("method", () async {
       HetimaHtml5Builder builder = new HetimaHtml5Builder();
       HetimaRequester requester = await builder.createRequester();
       HetimaResponse response = await requester.request(HetimaRequester.TYPE_POST, "http://localhost:8080/method");
       expect("post", UTF8.decode(response.response.asUint8List()).toLowerCase());
-//      response = await requester.request(HetimaRequester.TYPE_POST, "http://localhost:8080/header");
-//      print("## ${response.status} ${response.headers} ${UTF8.decode(response.response.asUint8List())}");
+      return "";
+    });
+
+    test("header", () async {
+      HetimaHtml5Builder builder = new HetimaHtml5Builder();
+      HetimaRequester requester = await builder.createRequester();
+      HetimaResponse response = await requester.request(
+        HetimaRequester.TYPE_POST,
+        "http://localhost:8080/header",
+        headers: {"nono":"nano"});
+        expect(true, UTF8.decode(response.response.asUint8List()).toLowerCase().contains("nono:nano"));
+      return "";
+    });
+    test("content", () async {
+      HetimaHtml5Builder builder = new HetimaHtml5Builder();
+      HetimaRequester requester = await builder.createRequester();
+      HetimaResponse response = await requester.request(
+        HetimaRequester.TYPE_POST,
+        "http://localhost:8080/content", data: "hello!!");
+        expect("hello!!", UTF8.decode(response.response.asUint8List()));
       return "";
     });
   });
