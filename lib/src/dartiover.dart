@@ -33,7 +33,7 @@ class HetimaDartIoHttpRequester extends HetimaRequester {
     }
     io.HttpClientResponse res = await req.close();
     List<int> vv = [];
-    await for (List<int> v in res.listen) {
+    await for(List<int> v in res) {
       vv.addAll(v);
     }
     return new HetimaResponse(res.statusCode, headers, new Uint8List.fromList(vv).buffer);
