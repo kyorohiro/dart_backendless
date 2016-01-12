@@ -63,7 +63,7 @@ onRequest(HttpRequest request) {
     StringBuffer buffer = new StringBuffer();
     request.headers.forEach((String name, List<String> values){
       for(String v in values) {
-        request.response.add(UTF8.encode("${name}:${v}"));
+        request.response.add(UTF8.encode("${name}:${v}\n"));
       }
     });
     request.response.add(UTF8.encode(buffer.toString()));

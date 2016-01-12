@@ -5,15 +5,19 @@ import 'dart:html';
 import 'dart:typed_data';
 import 'dart:convert';
 import 'package:hetima_backendless/backendless.dart';
+import 'package:unittest/unittest.dart';
 
 main() async {
   print("## --1--");
-  try {
-    HetimaHtml5Builder builder = new HetimaHtml5Builder();
-    HetimaRequester requester = await builder.createRequester();
-    HetimaResponse response = await requester.request(HetimaRequester.TYPE_POST, "http://localhost:8080/test1");
-    print("## ${response.status} ${response.headers} ${UTF8.decode(response.response.asUint8List())}");
-  } catch (e) {
-    print("##e");
-  }
+  group("", () {
+    test("aa", () async {
+      HetimaHtml5Builder builder = new HetimaHtml5Builder();
+      HetimaRequester requester = await builder.createRequester();
+      HetimaResponse response = await requester.request(HetimaRequester.TYPE_POST, "http://localhost:8080/method");
+      expect("post", UTF8.decode(response.response.asUint8List()).toLowerCase());
+//      response = await requester.request(HetimaRequester.TYPE_POST, "http://localhost:8080/header");
+//      print("## ${response.status} ${response.headers} ${UTF8.decode(response.response.asUint8List())}");
+      return "";
+    });
+  });
 }
