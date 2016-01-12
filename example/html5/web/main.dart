@@ -3,6 +3,7 @@
 
 import 'dart:html';
 import 'package:hetima_backendless/backendless.dart';
+import 'package:hetima_backendless/backendless_html5.dart';
 
 main() async {
   HetimaHtml5Builder builder = new HetimaHtml5Builder();
