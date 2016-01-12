@@ -5,16 +5,24 @@ part of hetima_backendless;
 
 class HtmlBuilder {}
 
+class HetimaHtml5Builder {
+  Future<HetimaRequester> createRequester() async {
+    return new HetimaHtml5HttpRequester();
+  }
+}
 abstract class HetimaBuilder {
   Future<HetimaRequester> createRequester();
 }
 
 abstract class HetimaRequester {
-  Future<HetimaResponse> request();
+  static final String TYPE_POST = "POST";
+  static final String TYPE_MPOST = "MPOST";
+  static final String TYPE_GET = "GET";
+  Future<HetimaResponse> request(String type, String url, Object data, {Map<String, String> headers: null}) ;
 }
 
-class HetimaHtml5HttpRequester {
-  Future<HetimaResponse> request(String type, String url, String data, {Map<String, String> headers: null}) {
+class HetimaHtml5HttpRequester extends HetimaRequester {
+  Future<HetimaResponse> request(String type, String url, Object data, {Map<String, String> headers: null}) {
     if (headers == null) {
       headers = {};
     }
@@ -34,7 +42,7 @@ class HetimaHtml5HttpRequester {
       req.onError.listen((html.ProgressEvent e) {
         c.completeError(e);
       });
-      if (data == null || data.length == 0) {
+      if (data == null) {
         req.send();
       } else {
         req.send(data);
@@ -48,8 +56,8 @@ class HetimaHtml5HttpRequester {
 
 class HetimaResponse {
   int _status;
-  int get status => _statue;
+  int get status => _status;
   ByteBuffer _response;
-  ByteBuffer get response => (_buffer == null ? new Uint8List.fromList([]) : _buffer);
+  ByteBuffer get response => (_response == null ? new Uint8List.fromList([]) : _response);
   HetimaResponse(this._status, this._response) {}
 }

@@ -5,5 +5,4 @@ import 'dart:html';
 import 'package:hetima_backendless/backendless.dart';
 
 void main() {
-  
 }
