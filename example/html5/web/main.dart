@@ -4,6 +4,8 @@
 import 'dart:html';
 import 'package:hetima_backendless/backendless.dart';
 
-void main() {
-  
+main() async {
+  HetimaHtml5Builder builder = new HetimaHtml5Builder();
+  HetimaRequester requester = await builder.createRequester();
+  requester.request(HetimaRequester.TYPE_POST, "http://localhost:8080/");
 }

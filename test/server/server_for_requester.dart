@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:args/args.dart';
 
 void main(List<String> args) {
+
   ArgParser parser = new ArgParser()
   ..addOption('port', abbr: 'p', defaultsTo: '8080')
   ..addOption('sport', abbr: 's', defaultsTo: '8443')
@@ -52,6 +53,7 @@ void startWithNoSequre(String ip, int port) {
 }
 
 onRequest(HttpRequest request) {
+  request.response.headers.add("Access-Control-Allow-Origin", "*");
   request.response.write('Hello, world!');
   request.response.close();
 }

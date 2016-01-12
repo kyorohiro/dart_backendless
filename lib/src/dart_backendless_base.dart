@@ -18,11 +18,11 @@ abstract class HetimaRequester {
   static final String TYPE_POST = "POST";
   static final String TYPE_MPOST = "MPOST";
   static final String TYPE_GET = "GET";
-  Future<HetimaResponse> request(String type, String url, Object data, {Map<String, String> headers: null}) ;
+  Future<HetimaResponse> request(String type, String url, {Object data:null, Map<String, String> headers: null}) ;
 }
 
 class HetimaHtml5HttpRequester extends HetimaRequester {
-  Future<HetimaResponse> request(String type, String url, Object data, {Map<String, String> headers: null}) {
+  Future<HetimaResponse> request(String type, String url, {Object data:null, Map<String, String> headers: null}){
     if (headers == null) {
       headers = {};
     }
