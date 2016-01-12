@@ -1,6 +1,6 @@
 library testserver.requester;
 import 'dart:io';
-
+import 'dart:convert';
 import 'package:args/args.dart';
 
 void main(List<String> args) {
@@ -53,7 +53,35 @@ void startWithNoSequre(String ip, int port) {
 }
 
 onRequest(HttpRequest request) {
+  request.response.done.then((_){
+    print("${_}");
+  });
+  request.response.headers.add("test", "a");
   request.response.headers.add("Access-Control-Allow-Origin", "*");
-  request.response.write('Hello, world!');
-  request.response.close();
+  print("##A#${request.uri.path}#");
+  if(request.uri.path == "/header") {
+    StringBuffer buffer = new StringBuffer();
+    request.headers.forEach((String name, List<String> values){
+      for(String v in values) {
+        request.response.add(UTF8.encode("${name}:${v}"));
+      }
+    });
+    request.response.add(UTF8.encode(buffer.toString()));
+    request.response.close();
+  }
+  else if(request.uri.path == "/method"){
+    request.response.add(UTF8.encode(request.method));
+    request.response.close();
+  }
+  else if(request.uri.path == "/content") {
+    request.listen((List<int> v){
+      request.response.add(v);
+     },onDone: (){
+      request.response.close();
+    });
+  }
+  else {
+    request.response.add(UTF8.encode("hello!!"));
+    request.response.close();
+  }
 }

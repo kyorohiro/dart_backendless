@@ -12,7 +12,7 @@ main() async {
     HetimaHtml5Builder builder = new HetimaHtml5Builder();
     HetimaRequester requester = await builder.createRequester();
     HetimaResponse response = await requester.request(HetimaRequester.TYPE_POST, "http://localhost:8080/test1");
-    print("${response.status} ${UTF8.decode(response.response.asUint8List())}");
+    print("## ${response.status} ${response.headers} ${UTF8.decode(response.response.asUint8List())}");
   } catch (e) {
     print("##e");
   }

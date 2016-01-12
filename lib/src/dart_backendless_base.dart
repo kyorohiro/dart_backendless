@@ -36,7 +36,7 @@ class HetimaHtml5HttpRequester extends HetimaRequester {
       }
       req.onReadyStateChange.listen((html.ProgressEvent e) {
         if (req.readyState == html.HttpRequest.DONE) {
-          c.complete(new HetimaResponse(req.status, req.response));
+          c.complete(new HetimaResponse(req.status, req.responseHeaders, req.response));
         }
       });
       req.onError.listen((html.ProgressEvent e) {
@@ -59,5 +59,9 @@ class HetimaResponse {
   int get status => _status;
   ByteBuffer _response;
   ByteBuffer get response => (_response == null ? new Uint8List.fromList([]) : _response);
-  HetimaResponse(this._status, this._response) {}
+  Map<String,String> _headers = {};
+  Map<String,String> get headers => _headers;
+  HetimaResponse(this._status, Map<String,String> headers, this._response) {
+    _headers.addAll(headers);
+  }
 }
