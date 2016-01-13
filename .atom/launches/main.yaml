@@ -1,0 +1,8 @@
+# Flutter launch configuration for test/flutter/lib/main.dart.
+type: flutter
+path: test/flutter/lib/main.dart
+
+flutter:
+  checked: true
+  debug: true
+  route:
