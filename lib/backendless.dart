@@ -64,6 +64,7 @@ class LogoutResult {
   String message = "";
   int code = 9999;
   Map keyValues = {};
+  int statusCode = 0;
 
   LogoutResult.fromResponse(TinyNetRequesterResponse r) {
     String utf8binary = UTF8.decode(r.response.asUint8List());
@@ -79,6 +80,8 @@ class LogoutResult {
       message = keyValues["message"];
     }
 
+    statusCode = r.status;
+
     if (r.status == 200) {
       isOk = true;
     } else {
@@ -92,6 +95,7 @@ class RegistResult {
   String objectId = "";
   String message = "";
   int code = 9999;
+  int statusCode = 0;
   Map keyValues = {};
 
   RegistResult.fromResponse(TinyNetRequesterResponse r) {
@@ -108,7 +112,7 @@ class RegistResult {
     if (keyValues.containsKey("message")) {
       message = keyValues["message"];
     }
-
+    statusCode = r.status;
     if (r.status == 200) {
       isOk = true;
     } else {
@@ -124,6 +128,7 @@ class LoginResult {
   String message = "";
   int code = 9999;
   Map keyValues = {};
+  int statusCode = 0;
 
   LoginResult.fromResponse(TinyNetRequesterResponse r) {
     String utf8binary = UTF8.decode(r.response.asUint8List());
@@ -145,6 +150,7 @@ class LoginResult {
       message = keyValues["message"];
     }
 
+    statusCode = r.status;
     if (r.status == 200 && userToken != null && userToken.length != 0) {
       isOk = true;
     } else {
