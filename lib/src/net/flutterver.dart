@@ -1,28 +1,13 @@
-library hetima_backendless_flutter;
-
-import 'dart:async';
-import 'dart:typed_data';
-import 'backendless.dart';
-//
-import 'dart:convert';
-import 'package:flutter/services.dart';
-import 'package:mojo/core.dart' as core;
-import 'package:mojo/mojo/url_request.mojom.dart';
-import 'package:mojo/mojo/url_response.mojom.dart';
-import 'package:mojo_services/mojo/network_service.mojom.dart';
-import 'package:mojo_services/mojo/url_loader.mojom.dart';
-import 'package:mojo/mojo/http_header.mojom.dart';
-export 'package:mojo/mojo/url_response.mojom.dart' show UrlResponse;
-part 'src/dartflutterver.dart';
+part of hetima_mbaas_net_flutter;
 
 class HetimaFlutterBuilder {
-  Future<HetimaRequester> createRequester() async {
+  Future<TinyNetRequester> createRequester() async {
     return new HetimaFlutterHttpRequester();
   }
 }
 
-class HetimaFlutterHttpRequester extends HetimaRequester {
-  Future<HetimaResponse> request(String type, String url, {Object data: null, Map<String, String> headers: null}) async {
+class HetimaFlutterHttpRequester extends TinyNetRequester {
+  Future<TinyNetRequesterResponse> request(String type, String url, {Object data: null, Map<String, String> headers: null}) async {
     if (headers == null) {
       headers = {};
     }
@@ -76,6 +61,6 @@ class HetimaFlutterHttpRequester extends HetimaRequester {
       retHeader[h.name] = h.value;
     }
     print("#####---------(6)");
-    return new HetimaResponse(response.statusCode, retHeader, d.buffer);
+    return new TinyNetRequesterResponse(response.statusCode, retHeader, d.buffer);
   }
 }

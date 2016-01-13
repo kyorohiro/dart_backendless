@@ -4,8 +4,8 @@
 import 'dart:html';
 import 'dart:typed_data';
 import 'dart:convert';
-import 'package:hetima_backendless/backendless.dart';
-import 'package:hetima_backendless/backendless_html5.dart';
+import 'package:hetima_mbaas/tinynet.dart';
+import 'package:hetima_mbaas/tinynet_html5.dart';
 import 'package:unittest/unittest.dart';
 
 main() async {
@@ -13,17 +13,17 @@ main() async {
   group("", () {
     test("method", () async {
       HetimaHtml5Builder builder = new HetimaHtml5Builder();
-      HetimaRequester requester = await builder.createRequester();
-      HetimaResponse response = await requester.request(HetimaRequester.TYPE_POST, "http://localhost:8080/method");
+      TinyNetRequester requester = await builder.createRequester();
+      TinyNetRequesterResponse response = await requester.request(TinyNetRequester.TYPE_POST, "http://localhost:8080/method");
       expect("post", UTF8.decode(response.response.asUint8List()).toLowerCase());
       return "";
     });
 
     test("header", () async {
       HetimaHtml5Builder builder = new HetimaHtml5Builder();
-      HetimaRequester requester = await builder.createRequester();
-      HetimaResponse response = await requester.request(
-        HetimaRequester.TYPE_POST,
+      TinyNetRequester requester = await builder.createRequester();
+      TinyNetRequesterResponse response = await requester.request(
+        TinyNetRequester.TYPE_POST,
         "http://localhost:8080/header",
         headers: {"nono":"nano"});
         expect(true, UTF8.decode(response.response.asUint8List()).toLowerCase().contains("nono:nano"));
@@ -31,9 +31,9 @@ main() async {
     });
     test("content", () async {
       HetimaHtml5Builder builder = new HetimaHtml5Builder();
-      HetimaRequester requester = await builder.createRequester();
-      HetimaResponse response = await requester.request(
-        HetimaRequester.TYPE_POST,
+      TinyNetRequester requester = await builder.createRequester();
+      TinyNetRequesterResponse response = await requester.request(
+        TinyNetRequester.TYPE_POST,
         "http://localhost:8080/content", data: "hello!!");
         expect("hello!!", UTF8.decode(response.response.asUint8List()));
       return "";

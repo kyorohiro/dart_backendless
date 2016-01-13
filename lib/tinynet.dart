@@ -1,4 +1,4 @@
-library hetima_backendless;
+library hetima_mbaas_net;
 import 'dart:async';
 import 'dart:typed_data';
 

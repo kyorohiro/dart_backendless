@@ -2,7 +2,7 @@ name: dartio
 version: 0.0.1
 description: A simple console application.
 dependencies:
-  hetima_backendless:
+  hetima_mbaas:
     path: ../../
 dev_dependencies:
   unittest: any

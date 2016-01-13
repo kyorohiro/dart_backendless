@@ -1,17 +1,17 @@
-part of hetima_backendless_html5;
+part of hetima_mbaas_net_html5;
 
 class HetimaHtml5Builder {
-  Future<HetimaRequester> createRequester() async {
+  Future<TinyNetRequester> createRequester() async {
     return new HetimaHtml5HttpRequester();
   }
 }
 
-class HetimaHtml5HttpRequester extends HetimaRequester {
-  Future<HetimaResponse> request(String type, String url, {Object data:null, Map<String, String> headers: null}){
+class HetimaHtml5HttpRequester extends TinyNetRequester {
+  Future<TinyNetRequesterResponse> request(String type, String url, {Object data:null, Map<String, String> headers: null}){
     if (headers == null) {
       headers = {};
     }
-    Completer<HetimaResponse> c = new Completer();
+    Completer<TinyNetRequesterResponse> c = new Completer();
     try {
       html.HttpRequest req = new html.HttpRequest();
       req.responseType = "arraybuffer";
@@ -21,7 +21,7 @@ class HetimaHtml5HttpRequester extends HetimaRequester {
       }
       req.onReadyStateChange.listen((html.ProgressEvent e) {
         if (req.readyState == html.HttpRequest.DONE) {
-          c.complete(new HetimaResponse(req.status, req.responseHeaders, req.response));
+          c.complete(new TinyNetRequesterResponse(req.status, req.responseHeaders, req.response));
         }
       });
       req.onError.listen((html.ProgressEvent e) {

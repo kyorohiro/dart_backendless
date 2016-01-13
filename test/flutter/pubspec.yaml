@@ -1,6 +1,6 @@
 name: ttt
 description: A minimal Flutter project.
 dependencies:
-  hetima_backendless:
+  hetima_mbaas:
     path: ../../
   unittest: any

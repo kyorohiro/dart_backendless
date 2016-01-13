@@ -1,22 +1,22 @@
-part of hetima_backendless_dartio;
+part of hetima_mbaas_net_dartio;
 
 class HetimaDartIoBuilder {
-  Future<HetimaRequester> createRequester() async {
+  Future<TinyNetRequester> createRequester() async {
     return new HetimaDartIoHttpRequester();
   }
 }
 
-class HetimaDartIoHttpRequester extends HetimaRequester {
-  Future<HetimaResponse> request(String type, String url, {Object data: null, Map<String, String> headers: null}) async {
+class HetimaDartIoHttpRequester extends TinyNetRequester {
+  Future<TinyNetRequesterResponse> request(String type, String url, {Object data: null, Map<String, String> headers: null}) async {
     if (headers == null) {
       headers = {};
     }
     io.HttpClient cl = new io.HttpClient();
     //cl.
     io.HttpClientRequest req = null;
-    if (type.toUpperCase() == HetimaRequester.TYPE_POST) {
+    if (type.toUpperCase() == TinyNetRequester.TYPE_POST) {
       req = await cl.postUrl(Uri.parse(url));
-    } else if (type.toUpperCase() == HetimaRequester.TYPE_GET) {
+    } else if (type.toUpperCase() == TinyNetRequester.TYPE_GET) {
       req = await cl.getUrl(Uri.parse(url));
     } else {
       throw new UnsupportedError("");
@@ -36,6 +36,6 @@ class HetimaDartIoHttpRequester extends HetimaRequester {
     await for(List<int> v in res) {
       vv.addAll(v);
     }
-    return new HetimaResponse(res.statusCode, headers, new Uint8List.fromList(vv).buffer);
+    return new TinyNetRequesterResponse(res.statusCode, headers, new Uint8List.fromList(vv).buffer);
   }
 }
