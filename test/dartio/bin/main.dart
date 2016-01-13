@@ -2,8 +2,8 @@
 // is governed by a BSD-style license that can be found in the LICENSE file.
 
 import 'dart:convert';
-import 'package:hetima_mbaas/tinynet.dart';
-import 'package:hetima_mbaas/tinynet_dartio.dart';
+import 'package:umiuni2d_netbox/tinynet.dart';
+import 'package:umiuni2d_netbox/tinynet_dartio.dart';
 import 'package:unittest/unittest.dart';
 
 main(List<String> args)  async {

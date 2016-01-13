@@ -4,8 +4,8 @@
 import 'dart:html';
 import 'dart:typed_data';
 import 'dart:convert';
-import 'package:hetima_mbaas/tinynet.dart';
-import 'package:hetima_mbaas/tinynet_html5.dart';
+import 'package:umiuni2d_netbox/tinynet.dart';
+import 'package:umiuni2d_netbox/tinynet_html5.dart';
 import 'package:unittest/unittest.dart';
 
 main() async {

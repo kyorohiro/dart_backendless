@@ -1,7 +1,7 @@
 
 import 'dart:convert';
-import 'package:hetima_mbaas/tinynet.dart';
-import 'package:hetima_mbaas/tinynet_flutter.dart';
+import 'package:umiuni2d_netbox/tinynet.dart';
+import 'package:umiuni2d_netbox/tinynet_flutter.dart';
 import 'package:unittest/unittest.dart';
 
 main() async {

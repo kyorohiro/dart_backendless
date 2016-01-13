@@ -1,6 +1,6 @@
 name: ttt
 description: A minimal Flutter project.
 dependencies:
-  hetima_mbaas:
+  umiuni2d_netbox:
     path: ../../
   unittest: any
