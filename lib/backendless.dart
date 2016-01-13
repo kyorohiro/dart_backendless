@@ -21,11 +21,10 @@ class Backendless {
           "application-type": "REST", //
           "Content-Type": "application/json" //
         }, //
-        data: """{"login" : ${login}, "password" : ${password}}""" //
+        data: """{"login" : "${login}", "password" : "${password}"}""" //
         );
     return new LoginResult.fromResponse(resonse);
   }
-
   Future<RegistResult> regist(Map<String, String> properties, {String version: "v1"}) async {
     TinyNetRequester requester = await this.builder.createRequester();
     TinyNetRequesterResponse resonse = await requester.request(
