@@ -46,9 +46,6 @@ class HetimaFlutterHttpRequester extends HetimaRequester {
     //request.body =
     print("#####---------(3)");
     {
-
-
-
       if (data != null) {
         ByteData d = null;
         core.MojoDataPipe pipe = new core.MojoDataPipe();
