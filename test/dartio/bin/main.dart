@@ -10,7 +10,7 @@ main(List<String> args)  async {
   print("## --1--");
   group("", () {
     test("method", () async {
-      HetimaDartIoBuilder builder = new HetimaDartIoBuilder();
+      TinyNetDartIoBuilder builder = new TinyNetDartIoBuilder();
       TinyNetRequester requester = await builder.createRequester();
       TinyNetRequesterResponse response = await requester.request(TinyNetRequester.TYPE_POST, "http://localhost:8080/method");
       expect("post", UTF8.decode(response.response.asUint8List()).toLowerCase());
@@ -18,7 +18,7 @@ main(List<String> args)  async {
     });
 
     test("header", () async {
-      HetimaDartIoBuilder builder = new HetimaDartIoBuilder();
+      TinyNetDartIoBuilder builder = new TinyNetDartIoBuilder();
       TinyNetRequester requester = await builder.createRequester();
       TinyNetRequesterResponse response = await requester.request(
         TinyNetRequester.TYPE_POST,
@@ -28,7 +28,7 @@ main(List<String> args)  async {
       return "";
     });
     test("content", () async {
-      HetimaDartIoBuilder builder = new HetimaDartIoBuilder();
+      TinyNetDartIoBuilder builder = new TinyNetDartIoBuilder();
       TinyNetRequester requester = await builder.createRequester();
       TinyNetRequesterResponse response = await requester.request(
         TinyNetRequester.TYPE_POST,

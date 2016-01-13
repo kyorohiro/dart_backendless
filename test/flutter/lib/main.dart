@@ -9,7 +9,7 @@ main() async {
   group("", () {
     test("",() async{
       print("## --1--");
-      HetimaFlutterBuilder builder = new HetimaFlutterBuilder();
+      TinyNetFlutterBuilder builder = new TinyNetFlutterBuilder();
       TinyNetRequester requester = await builder.createRequester();
       TinyNetRequesterResponse response = await requester.request(TinyNetRequester.TYPE_GET, "https://raw.githubusercontent.com/kyorohiro/dart_hetimabackendless/master/README.md");
       print("#AA##${UTF8.decode(response.response.asUint8List())}");

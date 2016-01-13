@@ -1,12 +1,12 @@
 part of hetima_mbaas_net_html5;
 
-class HetimaHtml5Builder {
+class TinyNetHtml5Builder {
   Future<TinyNetRequester> createRequester() async {
-    return new HetimaHtml5HttpRequester();
+    return new TinyNetHtml5HttpRequester();
   }
 }
 
-class HetimaHtml5HttpRequester extends TinyNetRequester {
+class TinyNetHtml5HttpRequester extends TinyNetRequester {
   Future<TinyNetRequesterResponse> request(String type, String url, {Object data:null, Map<String, String> headers: null}){
     if (headers == null) {
       headers = {};

@@ -1,12 +1,12 @@
 part of hetima_mbaas_net_flutter;
 
-class HetimaFlutterBuilder {
+class TinyNetFlutterBuilder {
   Future<TinyNetRequester> createRequester() async {
-    return new HetimaFlutterHttpRequester();
+    return new TinyNetFlutterHttpRequester();
   }
 }
 
-class HetimaFlutterHttpRequester extends TinyNetRequester {
+class TinyNetFlutterHttpRequester extends TinyNetRequester {
   Future<TinyNetRequesterResponse> request(String type, String url, {Object data: null, Map<String, String> headers: null}) async {
     if (headers == null) {
       headers = {};

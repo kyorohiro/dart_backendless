@@ -12,7 +12,7 @@ main() async {
   print("## --1--");
   group("", () {
     test("method", () async {
-      HetimaHtml5Builder builder = new HetimaHtml5Builder();
+      TinyNetHtml5Builder builder = new TinyNetHtml5Builder();
       TinyNetRequester requester = await builder.createRequester();
       TinyNetRequesterResponse response = await requester.request(TinyNetRequester.TYPE_POST, "http://localhost:8080/method");
       expect("post", UTF8.decode(response.response.asUint8List()).toLowerCase());
@@ -20,7 +20,7 @@ main() async {
     });
 
     test("header", () async {
-      HetimaHtml5Builder builder = new HetimaHtml5Builder();
+      TinyNetHtml5Builder builder = new TinyNetHtml5Builder();
       TinyNetRequester requester = await builder.createRequester();
       TinyNetRequesterResponse response = await requester.request(
         TinyNetRequester.TYPE_POST,
@@ -30,7 +30,7 @@ main() async {
       return "";
     });
     test("content", () async {
-      HetimaHtml5Builder builder = new HetimaHtml5Builder();
+      TinyNetHtml5Builder builder = new TinyNetHtml5Builder();
       TinyNetRequester requester = await builder.createRequester();
       TinyNetRequesterResponse response = await requester.request(
         TinyNetRequester.TYPE_POST,

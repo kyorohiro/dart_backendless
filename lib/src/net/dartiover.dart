@@ -1,12 +1,12 @@
 part of hetima_mbaas_net_dartio;
 
-class HetimaDartIoBuilder {
+class TinyNetDartIoBuilder {
   Future<TinyNetRequester> createRequester() async {
-    return new HetimaDartIoHttpRequester();
+    return new TinyNetDartIoHttpRequester();
   }
 }
 
-class HetimaDartIoHttpRequester extends TinyNetRequester {
+class TinyNetDartIoHttpRequester extends TinyNetRequester {
   Future<TinyNetRequesterResponse> request(String type, String url, {Object data: null, Map<String, String> headers: null}) async {
     if (headers == null) {
       headers = {};
