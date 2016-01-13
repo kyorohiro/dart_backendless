@@ -1,6 +1,6 @@
 part of hetima_mbaas_net_flutter;
 
-class TinyNetFlutterBuilder {
+class TinyNetFlutterBuilder extends TinyNetBuilder {
   Future<TinyNetRequester> createRequester() async {
     return new TinyNetFlutterHttpRequester();
   }

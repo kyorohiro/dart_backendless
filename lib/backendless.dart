@@ -66,10 +66,10 @@ class LogoutResult {
   Map keyValues = {};
 
   LogoutResult.fromResponse(TinyNetRequesterResponse r) {
-    String message = UTF8.decode(r.response.asUint8List());
+    String utf8binary = UTF8.decode(r.response.asUint8List());
 
     try {
-      keyValues = JSON.decode(message);
+      keyValues = JSON.decode(utf8binary);
     } catch (e) {}
 
     if (keyValues.containsKey("code")) {
@@ -95,9 +95,9 @@ class RegistResult {
   Map keyValues = {};
 
   RegistResult.fromResponse(TinyNetRequesterResponse r) {
-    String message = UTF8.decode(r.response.asUint8List());
+    String utf8binary = UTF8.decode(r.response.asUint8List());
     try {
-      keyValues = JSON.decode(message);
+      keyValues = JSON.decode(utf8binary);
     } catch (e) {}
     if (keyValues.containsKey("objectId")) {
       objectId = keyValues["objectId"];
@@ -126,10 +126,10 @@ class LoginResult {
   Map keyValues = {};
 
   LoginResult.fromResponse(TinyNetRequesterResponse r) {
-    String message = UTF8.decode(r.response.asUint8List());
+    String utf8binary = UTF8.decode(r.response.asUint8List());
 
     try {
-      keyValues = JSON.decode(message);
+      keyValues = JSON.decode(utf8binary);
     } catch (e) {}
 
     if (keyValues.containsKey("user-token")) {

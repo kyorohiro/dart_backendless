@@ -1,6 +1,6 @@
 part of hetima_mbaas_net_html5;
 
-class TinyNetHtml5Builder {
+class TinyNetHtml5Builder extends TinyNetBuilder {
   Future<TinyNetRequester> createRequester() async {
     return new TinyNetHtml5HttpRequester();
   }

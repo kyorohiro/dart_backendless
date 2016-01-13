@@ -1,6 +1,6 @@
 part of hetima_mbaas_net_dartio;
 
-class TinyNetDartIoBuilder {
+class TinyNetDartIoBuilder extends TinyNetBuilder {
   Future<TinyNetRequester> createRequester() async {
     return new TinyNetDartIoHttpRequester();
   }
