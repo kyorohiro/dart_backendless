@@ -28,8 +28,6 @@ String get appId {
 
 void kicktests(TinyNetBuilder builder) {
   TestUser user = new TestUser();
-  print("##${appId}");
-  print("##${restId}");
   user.kick(builder, appId, restId);
 }
 
@@ -37,12 +35,19 @@ class TestUser {
   kick(TinyNetBuilder builder, String applicationId, String secretKey) {
     test("a",() async {
       BackendlessUser user = new BackendlessUser(builder, applicationId, secretKey);
-      RegistResult ret1 = await user.regist({
+      //RegistResult ret1 =
+      await user.regist({
         BackendlessUser.REGIST_EMAIL:"kyorohiro@gmail.com",//
         BackendlessUser.REGIST_NAME:"kyorohiro",//
         BackendlessUser.REGIST_PASSWORD:"asdfasdf"
       });
-      expect(true, ret1.isOk);
+      //expect(true, ret1.isOk);
+      LoginResult ret2 = await user.login("kyorohiro@gmail.com", "asdfasdf");
+      expect(true, ret2.isOk);
+      //
+      LogoutResult ret3 = await user.logout(ret2.userToken);
+      expect(true, ret3.isOk);
+
       return "";
     });
   }
