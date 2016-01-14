@@ -2,6 +2,10 @@ part of hetima_mbaas_backendless;
 
 
 class BackendlessUser {
+  static final String REGIST_NAME = "name";
+  static final String REGIST_PASSWORD = "password";
+  static final String REGIST_EMAIL = "email";
+
   TinyNetBuilder builder;
   String applicationId;
   String secretKey;
