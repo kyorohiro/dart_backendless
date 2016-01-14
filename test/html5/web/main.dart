@@ -1,8 +1,6 @@
 // Copyright (c) 2016, <your name>. All rights reserved. Use of this source code
 // is governed by a BSD-style license that can be found in the LICENSE file.
 
-import 'dart:html';
-import 'dart:typed_data';
 import 'dart:convert';
 import 'package:umiuni2d_netbox/tinynet.dart';
 import 'package:umiuni2d_netbox/tinynet_html5.dart';

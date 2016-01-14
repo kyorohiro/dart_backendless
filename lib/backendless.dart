@@ -56,7 +56,7 @@ class Backendless {
     return new LogoutResult.fromResponse(resonse);
   }
 
-  Future<SaveDataResult> saveData(String tableName, Map<String,String> body, {String userToken:null, String version: "v1"}) async {
+  Future<SaveDataResult> saveData(String tableName, Map<String,Object> body, {String userToken:null, String version: "v1"}) async {
     TinyNetRequester requester = await this.builder.createRequester();
     Map<String,String> headers = {
       "application-id": applicationId, //
@@ -71,8 +71,8 @@ class Backendless {
         TinyNetRequester.TYPE_POST, //
         "https://api.backendless.com/${version}/data/${tableName}", //
         headers: headers, //
-        data: JSON.encode(body) //
-        );
+        data: JSON.encode(body));
+    
     return new SaveDataResult.fromResponse(resonse);
   }
 }
