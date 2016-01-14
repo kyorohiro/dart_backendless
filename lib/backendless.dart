@@ -55,6 +55,79 @@ class Backendless {
     );
     return new LogoutResult.fromResponse(resonse);
   }
+
+  Future<SaveDataResult> saveData(String tableName, Map<String,String> body, {String userToken:null, String version: "v1"}) async {
+    TinyNetRequester requester = await this.builder.createRequester();
+    Map<String,String> headers = {
+      "application-id": applicationId, //
+      "secret-key": secretKey, //
+      "application-type": "REST", //
+      "Content-Type": "application/json" //
+    };
+    if(userToken != null) {
+      headers["user-token"] = userToken;
+    }
+    TinyNetRequesterResponse resonse = await requester.request(
+        TinyNetRequester.TYPE_POST, //
+        "https://api.backendless.com/${version}/data/${tableName}", //
+        headers: headers, //
+        data: JSON.encode(body) //
+        );
+    return new SaveDataResult.fromResponse(resonse);
+  }
+}
+
+class SaveDataResult {
+  bool isOk = false;
+  //
+  String objectId = "";
+  String updated = "";
+  String created = "";
+  String ownerId = "";
+  String classId = "";
+
+  //
+  String message = "";
+  int code = 9999;
+  Map keyValues = {};
+  int statusCode = 0;
+
+  SaveDataResult.fromResponse(TinyNetRequesterResponse r) {
+    String utf8binary = UTF8.decode(r.response.asUint8List());
+
+    statusCode = r.status;
+    if (r.status == 200) {
+      isOk = true;
+    } else {
+      isOk = false;
+    }
+
+    try {
+      keyValues = JSON.decode(utf8binary);
+    } catch (e) {}
+
+    if (keyValues.containsKey("code")) {
+      code = keyValues["code"];
+    }
+    if (keyValues.containsKey("message")) {
+      message = keyValues["message"];
+    }
+    if (keyValues.containsKey("updated")) {
+      updated = keyValues["updated"];
+    }
+    if (keyValues.containsKey("created")) {
+      created = keyValues["created"];
+    }
+    if (keyValues.containsKey("ownerId")) {
+      ownerId = keyValues["ownerId"];
+    }
+    if (keyValues.containsKey("objectId")) {
+      objectId = keyValues["objectId"];
+    }
+    if (keyValues.containsKey("___class")) {
+      classId = keyValues["___class"];
+    }
+  }
 }
 
 class LogoutResult {
