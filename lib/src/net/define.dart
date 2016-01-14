@@ -12,6 +12,7 @@ abstract class TinyNetBuilder {
 abstract class TinyNetRequester {
   static final String TYPE_POST = "POST";
   static final String TYPE_GET = "GET";
+  static final String TYPE_PUT = "PUT";
   Future<TinyNetRequesterResponse> request(String type, String url, {Object data:null, Map<String, String> headers: null}) ;
 }
 

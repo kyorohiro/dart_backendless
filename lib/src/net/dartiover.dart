@@ -18,6 +18,8 @@ class TinyNetDartIoHttpRequester extends TinyNetRequester {
       req = await cl.postUrl(Uri.parse(url));
     } else if (type.toUpperCase() == TinyNetRequester.TYPE_GET) {
       req = await cl.getUrl(Uri.parse(url));
+    } else if (type.toUpperCase() == TinyNetRequester.TYPE_GET){
+      req = await cl.getUrl(Uri.parse(url));
     } else {
       throw new UnsupportedError("");
     }
