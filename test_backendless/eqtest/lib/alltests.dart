@@ -44,12 +44,13 @@ class TestUser {
       //expect(true, ret1.isOk);
       LoginResult ret2 = await user.login("kyorohiro@gmail.com", "asdfasdf");
       expect(true, ret2.isOk);
-
+      UpdateUserPropertyResult ret22 = await user.updateUserProperty(ret2.objectId, ret2.userToken, {"name":"kyorohiro2"});
+      expect(true, ret22.isOk);
       //
       GetUserPropertyResult ret21 = await user.getUserProperty(ret2.objectId, ["name","email"]);
       print("#${ret21.keyValues} ${ret21.statusCode}");
       expect(true, ret21.isOk);
-      expect("kyorohiro", ret21.keyValues["name"]);
+      expect("kyorohiro2", ret21.keyValues["name"]);
       expect("kyorohiro@gmail.com", ret21.keyValues["email"]);
       //
       LogoutResult ret3 = await user.logout(ret2.userToken);

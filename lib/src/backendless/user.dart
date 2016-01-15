@@ -78,6 +78,55 @@ class BackendlessUser {
     );
     return new GetUserPropertyResult.fromResponse(resonse);
   }
+
+  Future<UpdateUserPropertyResult> updateUserProperty(String objectId, String userToken, Map<String,Object> props, {String version: "v1"}) async {
+    TinyNetRequester requester = await this.builder.createRequester();
+    TinyNetRequesterResponse resonse = await requester.request(
+        TinyNetRequester.TYPE_PUT, //
+        "https://api.backendless.com/${version}/users/${objectId}", //
+        headers: {
+          "application-id": applicationId, //
+          "secret-key": secretKey, //
+          "Content-Type":"application/json", //
+          "application-type": "REST", //
+          "user-token": userToken
+        },
+        data: JSON.encode(props)
+    );
+    return new UpdateUserPropertyResult.fromResponse(resonse);
+  }
+}
+
+
+class UpdateUserPropertyResult {
+  bool isOk = false;
+  String objectId = "";
+  String message = "";
+  int code = 9999;
+  Map keyValues = {};
+  int statusCode = 0;
+
+  UpdateUserPropertyResult.fromResponse(TinyNetRequesterResponse r) {
+    String utf8binary = UTF8.decode(r.response.asUint8List());
+    statusCode = r.status;
+    if (r.status == 200) {
+      isOk = true;
+    } else {
+      isOk = false;
+    }
+
+    try {
+      keyValues = JSON.decode(utf8binary);
+    } catch (e) {}
+
+    if (keyValues.containsKey("code")) {
+      code = keyValues["code"];
+    }
+    if (keyValues.containsKey("message")) {
+      message = keyValues["message"];
+    }
+
+  }
 }
 
 class GetUserPropertyResult {
