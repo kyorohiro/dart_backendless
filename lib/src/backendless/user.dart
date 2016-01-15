@@ -1,6 +1,5 @@
 part of hetima_mbaas_backendless;
 
-
 class BackendlessUser {
   static final String REGIST_NAME = "name";
   static final String REGIST_PASSWORD = "password";
@@ -57,8 +56,60 @@ class BackendlessUser {
         );
     return new LogoutResult.fromResponse(resonse);
   }
+
+  Future<GetUserPropertyResult> getUserProperty(String objectId, List<String> props, {String version: "v1"}) async {
+    StringBuffer propsBuffer = new StringBuffer("props=");
+    for(int i=0;i<props.length;i++) {
+      if(i!=0) {
+        propsBuffer.write(",");
+      }
+      propsBuffer.write(props[i]);
+    }
+
+    TinyNetRequester requester = await this.builder.createRequester();
+    TinyNetRequesterResponse resonse = await requester.request(
+        TinyNetRequester.TYPE_GET, //
+        "https://api.backendless.com/${version}/users/${objectId}?${propsBuffer.toString()}", //
+        headers: {
+          "application-id": applicationId, //
+          "secret-key": secretKey, //
+          "application-type": "REST"
+        }
+    );
+    return new GetUserPropertyResult.fromResponse(resonse);
+  }
 }
 
+class GetUserPropertyResult {
+  bool isOk = false;
+  String objectId = "";
+  String message = "";
+  int code = 9999;
+  Map keyValues = {};
+  int statusCode = 0;
+
+  GetUserPropertyResult.fromResponse(TinyNetRequesterResponse r) {
+    String utf8binary = UTF8.decode(r.response.asUint8List());
+    statusCode = r.status;
+    if (r.status == 200) {
+      isOk = true;
+    } else {
+      isOk = false;
+    }
+
+    try {
+      keyValues = JSON.decode(utf8binary);
+    } catch (e) {}
+
+    if (keyValues.containsKey("code")) {
+      code = keyValues["code"];
+    }
+    if (keyValues.containsKey("message")) {
+      message = keyValues["message"];
+    }
+
+  }
+}
 
 class LogoutResult {
   bool isOk = false;

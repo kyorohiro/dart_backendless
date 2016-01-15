@@ -44,6 +44,13 @@ class TestUser {
       //expect(true, ret1.isOk);
       LoginResult ret2 = await user.login("kyorohiro@gmail.com", "asdfasdf");
       expect(true, ret2.isOk);
+
+      //
+      GetUserPropertyResult ret21 = await user.getUserProperty(ret2.objectId, ["name","email"]);
+      print("#${ret21.keyValues} ${ret21.statusCode}");
+      expect(true, ret21.isOk);
+      expect("kyorohiro", ret21.keyValues["name"]);
+      expect("kyorohiro@gmail.com", ret21.keyValues["email"]);
       //
       LogoutResult ret3 = await user.logout(ret2.userToken);
       expect(true, ret3.isOk);
