@@ -7,60 +7,74 @@ class TinyNetFlutterBuilder extends TinyNetBuilder {
 }
 
 class TinyNetFlutterHttpRequester extends TinyNetRequester {
+  Future<TinyNetRequesterResponse> requestA(String type, String url, {Object data: null, Map<String, String> headers: null}) async {
+    if (headers == null) {
+      headers = {};
+    }
+    // url, {Map<String, String> headers, body}
+    ht.Response response = await ht.post(url, headers:headers, body:data);
+    return new TinyNetRequesterResponse(response.statusCode, {}, response.bodyBytes.buffer);
+  }
+
   Future<TinyNetRequesterResponse> request(String type, String url, {Object data: null, Map<String, String> headers: null}) async {
     if (headers == null) {
       headers = {};
     }
-    print("#####---------(1)");
     NetworkServiceProxy networkService = new NetworkServiceProxy.unbound();
     shell.connectToService("m", networkService);
 
     UrlLoaderProxy loader = new UrlLoaderProxy.unbound();
-    networkService.ptr.createUrlLoader(loader);
     UrlRequest request = new UrlRequest();
-    request.url = Uri.base.resolve(url).toString();
-    request.autoFollowRedirects = true;
-    request.method = type;
 
-    for (String k in headers.keys) {
-      request.headers.add(new HttpHeader()
-        ..name = k
-        ..value = headers[k]);
-    }
-    networkService.close();
-    //request.body =
-    print("#####---------(3)");
+    List<HttpHeader> mojoHeaders = <HttpHeader>[];
+    headers.forEach((String name, String value) {
+      HttpHeader header = new HttpHeader()
+        ..name = name
+        ..value = value;
+      mojoHeaders.add(header);
+    });
+    request.url = url;//Uri.base.resolve(url).toString();
+    request.autoFollowRedirects = false;
+    request.method = type;
+    request.headers = mojoHeaders;
+
     {
       if (data != null) {
+        print("#####---------(0) ${(UTF8.decode((UTF8.encode(data) as Uint8List).buffer.asUint8List()))}");
         ByteData d = null;
-        core.MojoDataPipe pipe = new core.MojoDataPipe();
-        request.body = <core.MojoDataPipeConsumer>[pipe.consumer];
+
         if (data is String) {
-          d = (UTF8.encode(data) as Uint8List).buffer.asByteData();
+          print("###ST# ${data}");
+          d = new ByteData.view((UTF8.encode(data) as Uint8List).buffer);//(UTF8.encode(data) as Uint8List).buffer.asByteData();
         } else if (data is TypedData) {
           d = data.buffer.asByteData();
         } else if (data is ByteBuffer) {
           d = data.asByteData();
         } else if (data is List) {
           d = new ByteData.view(new Uint8List.fromList(data).buffer);
+        } else if( data is ByteData) {
+          d = data;
         } else {
           throw new UnsupportedError("");
         }
+        core.MojoDataPipe pipe = new core.MojoDataPipe();
         core.DataPipeFiller.fillHandle(pipe.producer, d);
-      }
+        request.body = <core.MojoDataPipeConsumer>[pipe.consumer];
+        /*new Future((){
+          pipe.producer.write(d);
+          pipe.producer.handle.close();
+        });*/
 
+      }
     }
-    print("#####---------(3-9)");
+    networkService.ptr.createUrlLoader(loader);
     UrlResponse response = (await loader.ptr.start(request)).response;
-    core.MojoDataPipeConsumer consumer = response.body;
-    print("#####---------(4)");
-    ByteData d = await core.DataPipeDrainer.drainHandle(consumer);
-    print("#####---------(5)");
+    ByteData d1 = await core.DataPipeDrainer.drainHandle(response.body);
     Map<String, String> retHeader = {};
     for (HttpHeader h in response.headers) {
       retHeader[h.name] = h.value;
     }
-    print("#####---------(6)");
-    return new TinyNetRequesterResponse(response.statusCode, retHeader, d.buffer);
+    print("#####---------(6) ${response.statusCode} ${UTF8.decode(d1.buffer.asUint8List())}");
+    return new TinyNetRequesterResponse(response.statusCode, retHeader, d1.buffer);
   }
 }

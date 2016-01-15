@@ -40,17 +40,21 @@ class TestUser {
   kick(TinyNetBuilder builder, String applicationId, String secretKey) {
     test("a",() async {
       BackendlessUser user = new BackendlessUser(builder, applicationId, secretKey);
+      /*
       //RegistResult ret1 =
       await user.regist({
         BackendlessUser.REGIST_EMAIL:"kyorohiro@gmail.com",//
         BackendlessUser.REGIST_NAME:"kyorohiro",//
         BackendlessUser.REGIST_PASSWORD:"asdfasdf"
       });
+    */
       //expect(true, ret1.isOk);
       LoginResult ret2 = await user.login("kyorohiro@gmail.com", "asdfasdf");
+      print("${ret2.keyValues}");
       expect(true, ret2.isOk);
       UpdateUserPropertyResult ret22 = await user.updateUserProperty(ret2.objectId, ret2.userToken, {"name":"kyorohiro2"});
       expect(true, ret22.isOk);
+      /*
       //
       GetUserPropertyResult ret21 = await user.getUserProperty(ret2.objectId, ["name","email"]);
       print("#${ret21.keyValues} ${ret21.statusCode}");
@@ -64,7 +68,7 @@ class TestUser {
       //ResetPasswordResult ret4 = await user.resetPassword("kyorohiro");
       //print("${ret4.keyValues}");
       //expect(true, ret4.isOk);
-
+*/
       return "";
     });
   }
