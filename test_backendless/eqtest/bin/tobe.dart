@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:test_backendless/alltests.dart';
 
 void main(List<String> args) {
   String pat = "にんげんばんじさいおうがうまレイジーンセイバーヘーゲンなるしまゆりげんじゅうぶんしょ";

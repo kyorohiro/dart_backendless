@@ -59,8 +59,8 @@ class BackendlessUser {
 
   Future<GetUserPropertyResult> getUserProperty(String objectId, List<String> props, {String version: "v1"}) async {
     StringBuffer propsBuffer = new StringBuffer("props=");
-    for(int i=0;i<props.length;i++) {
-      if(i!=0) {
+    for (int i = 0; i < props.length; i++) {
+      if (i != 0) {
         propsBuffer.write(",");
       }
       propsBuffer.write(props[i]);
@@ -71,15 +71,14 @@ class BackendlessUser {
         TinyNetRequester.TYPE_GET, //
         "https://api.backendless.com/${version}/users/${objectId}?${propsBuffer.toString()}", //
         headers: {
-          "application-id": applicationId, //
-          "secret-key": secretKey, //
-          "application-type": "REST"
-        }
-    );
+      "application-id": applicationId, //
+      "secret-key": secretKey, //
+      "application-type": "REST"
+    });
     return new GetUserPropertyResult.fromResponse(resonse);
   }
 
-  Future<UpdateUserPropertyResult> updateUserProperty(String objectId, String userToken, Map<String,Object> props, {String version: "v1"}) async {
+  Future<UpdateUserPropertyResult> updateUserProperty(String objectId, String userToken, Map<String, Object> props, {String version: "v1"}) async {
     TinyNetRequester requester = await this.builder.createRequester();
     TinyNetRequesterResponse resonse = await requester.request(
         TinyNetRequester.TYPE_PUT, //
@@ -87,12 +86,11 @@ class BackendlessUser {
         headers: {
           "application-id": applicationId, //
           "secret-key": secretKey, //
-          "Content-Type":"application/json", //
+          "Content-Type": "application/json", //
           "application-type": "REST", //
           "user-token": userToken
         },
-        data: JSON.encode(props)
-    );
+        data: JSON.encode(props));
     return new UpdateUserPropertyResult.fromResponse(resonse);
   }
 
@@ -102,10 +100,10 @@ class BackendlessUser {
         TinyNetRequester.TYPE_GET, //
         "https://api.backendless.com/${version}/users/restorepassword/${userName}", //
         headers: {
-          "application-id": applicationId, //
-          "secret-key": secretKey, //
-          "application-type": "REST"//
-        } //
+      "application-id": applicationId, //
+      "secret-key": secretKey, //
+      "application-type": "REST" //
+    } //
         );
     return new ResetPasswordResult.fromResponse(resonse);
   }
@@ -138,9 +136,9 @@ class ResetPasswordResult {
     if (keyValues.containsKey("message")) {
       message = keyValues["message"];
     }
-
   }
 }
+
 class UpdateUserPropertyResult {
   bool isOk = false;
   String objectId = "";
@@ -168,7 +166,6 @@ class UpdateUserPropertyResult {
     if (keyValues.containsKey("message")) {
       message = keyValues["message"];
     }
-
   }
 }
 
@@ -199,7 +196,6 @@ class GetUserPropertyResult {
     if (keyValues.containsKey("message")) {
       message = keyValues["message"];
     }
-
   }
 }
 
