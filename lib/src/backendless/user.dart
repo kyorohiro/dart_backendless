@@ -95,9 +95,52 @@ class BackendlessUser {
     );
     return new UpdateUserPropertyResult.fromResponse(resonse);
   }
+
+  Future<ResetPasswordResult> resetPassword(String userName, {String version: "v1"}) async {
+    TinyNetRequester requester = await this.builder.createRequester();
+    TinyNetRequesterResponse resonse = await requester.request(
+        TinyNetRequester.TYPE_GET, //
+        "https://api.backendless.com/${version}/users/restorepassword/${userName}", //
+        headers: {
+          "application-id": applicationId, //
+          "secret-key": secretKey, //
+          "application-type": "REST"//
+        } //
+        );
+    return new ResetPasswordResult.fromResponse(resonse);
+  }
 }
 
+class ResetPasswordResult {
+  bool isOk = false;
+  String objectId = "";
+  String message = "";
+  int code = 9999;
+  Map keyValues = {};
+  int statusCode = 0;
 
+  ResetPasswordResult.fromResponse(TinyNetRequesterResponse r) {
+    String utf8binary = UTF8.decode(r.response.asUint8List());
+    statusCode = r.status;
+    if (r.status == 200) {
+      isOk = true;
+    } else {
+      isOk = false;
+    }
+
+    try {
+      keyValues = JSON.decode(utf8binary);
+    } catch (e) {}
+
+    if (keyValues.containsKey("code")) {
+      code = keyValues["code"];
+    }
+    if (keyValues.containsKey("message")) {
+      message = keyValues["message"];
+    }
+
+  }
+}
 class UpdateUserPropertyResult {
   bool isOk = false;
   String objectId = "";

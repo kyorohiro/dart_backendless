@@ -56,6 +56,10 @@ class TestUser {
       LogoutResult ret3 = await user.logout(ret2.userToken);
       expect(true, ret3.isOk);
 
+      //ResetPasswordResult ret4 = await user.resetPassword("kyorohiro");
+      //print("${ret4.keyValues}");
+      //expect(true, ret4.isOk);
+
       return "";
     });
   }
