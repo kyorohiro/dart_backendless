@@ -75,17 +75,21 @@ class TestData {
     test("a",() async {
       BackendlessData data = new BackendlessData(builder, applicationId, secretKey);
       SaveDataResult ret1 = await data.saveData("Test", {"text001":"hello22"});
-      print("#B# ${ret1.keyValues}");
+      print("\n#A# ${ret1.keyValues}");
       expect(true, ret1.isOk);
 
       SearchBasicDataResult ret2 = await data.searchBasicDataFromLast("Test");
-      print("#B# ${ret2.keyValues}");
+      print("\n#B# ${ret2.keyValues}");
       expect(true, ret2.isOk);
 
       SearchBasicDataResult ret3 = await data.searchBasicDataCollection("Test");
-      print("#B# ${ret3.keyValues}");
+      print("\n#C# ${ret3.keyValues}");
       expect(true, ret3.isOk);
 
+
+      DeleteDataResult ret4 = await data.deleteData("Test", ret2.objectId);
+      print("\n#D# #${ret2.objectId} ${ret4.keyValues}");
+      expect(true, ret4.isOk);
       return "";
     });
   }

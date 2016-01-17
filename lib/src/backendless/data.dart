@@ -103,8 +103,7 @@ class BackendlessData {
     Map<String, String> headers = {
       "application-id": applicationId, //
       "secret-key": secretKey, //
-      "application-type": "REST", //
-      "Content-Type": "application/json" //
+      "application-type": "REST" //
     };
     if (userToken != null) {
       headers["user-token"] = userToken;
@@ -190,6 +189,10 @@ class SearchBasicDataResult {
         data = keyValues["data"];
       } catch(e){}
     }
+    if (keyValues.containsKey("objectId")) {
+      objectId = keyValues["objectId"];
+    }
+
     if (keyValues.containsKey("next page")) {
       nextPage = keyValues["next page"];
     }
