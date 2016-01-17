@@ -5,6 +5,7 @@ class BackendlessData {
   String applicationId;
   String secretKey;
   BackendlessData(this.builder, this.applicationId, this.secretKey) {}
+
   Future<SaveDataResult> saveData(String tableName, Map<String, Object> body, {String userToken: null, String version: "v1"}) async {
     TinyNetRequester requester = await this.builder.createRequester();
     Map<String, String> headers = {
@@ -25,7 +26,7 @@ class BackendlessData {
     return new SaveDataResult.fromResponse(resonse);
   }
 
-  Future<Object> retrieveSchemeDefinition(String tableName, Map<String, Object> body, {String userToken: null, String version: "v1"}) async {
+  Future<SaveDataResult> retrieveSchemeDefinition(String tableName, {String userToken: null, String version: "v1"}) async {
     TinyNetRequester requester = await this.builder.createRequester();
     Map<String, String> headers = {
       "application-id": applicationId, //
@@ -39,10 +40,75 @@ class BackendlessData {
     TinyNetRequesterResponse resonse = await requester.request(
         TinyNetRequester.TYPE_GET, //
         "https://api.backendless.com/${version}/data/${tableName}/properties", //
-        headers: headers, //
-        data: JSON.encode(body));
+        headers: headers);
 
     return new SaveDataResult.fromResponse(resonse);
+  }
+
+  Future<SearchBasicDataResult> searchBasicDataFromFirst(String tableName ,{String command:null, String userToken: null, String version: "v1"}) async {
+    return await searchBasicData(tableName, userToken:userToken, command:"first", version:version);
+  }
+
+  Future<SearchBasicDataResult> searchBasicDataFromLast(String tableName ,{String command:null, String userToken: null, String version: "v1"}) async {
+    return await searchBasicData(tableName, userToken:userToken, command:"last", version:version);
+  }
+
+  Future<SearchBasicDataResult> searchBasicDataFromObjectId(String tableName ,String objectId,{String command:null, String userToken: null, String version: "v1"}) async {
+    return await searchBasicData(tableName, userToken:userToken, command:"${objectId}", version:version);
+  }
+
+  Future<SearchBasicDataResult> searchBasicData(String tableName ,{String command:null, String userToken: null, String version: "v1"}) async {
+    TinyNetRequester requester = await this.builder.createRequester();
+    Map<String, String> headers = {
+      "application-id": applicationId, //
+      "secret-key": secretKey, //
+      "application-type": "REST", //
+      "Content-Type": "application/json" //
+    };
+    if (userToken != null) {
+      headers["user-token"] = userToken;
+    }
+
+    String commandProp = "";
+    if(command != null) {
+      commandProp = "/${command}";
+    }
+    TinyNetRequesterResponse resonse = await requester.request(
+        TinyNetRequester.TYPE_GET, //
+        "https://api.backendless.com/${version}/data/${tableName}${commandProp}", //
+        headers: headers);
+
+    return new SearchBasicDataResult.fromResponse(resonse);
+  }
+}
+
+class SearchBasicDataResult {
+  bool isOk = false;
+  String objectId = "";
+  String message = "";
+  int code = 9999;
+  Map keyValues = {};
+  int statusCode = 0;
+
+  SearchBasicDataResult.fromResponse(TinyNetRequesterResponse r) {
+    String utf8binary = UTF8.decode(r.response.asUint8List());
+    statusCode = r.status;
+    if (r.status == 200) {
+      isOk = true;
+    } else {
+      isOk = false;
+    }
+
+    try {
+      keyValues = JSON.decode(utf8binary);
+    } catch (e) {}
+
+    if (keyValues.containsKey("code")) {
+      code = keyValues["code"];
+    }
+    if (keyValues.containsKey("message")) {
+      message = keyValues["message"];
+    }
   }
 }
 

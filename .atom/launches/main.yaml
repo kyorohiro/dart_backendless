@@ -1,6 +1,6 @@
-# Flutter launch configuration for test_backendless/eqtest/lib/main.dart.
+# Flutter launch configuration for test_backendless/eqtest/bin/main.dart.
 type: flutter
-path: test_backendless/eqtest/lib/main.dart
+path: test_backendless/eqtest/bin/main.dart
 
 flutter:
   checked: true

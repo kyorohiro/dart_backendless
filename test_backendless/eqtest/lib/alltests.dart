@@ -73,7 +73,14 @@ class TestUser {
 class TestData {
   kick(TinyNetBuilder builder, String applicationId, String secretKey) {
     test("a",() async {
+      BackendlessData data = new BackendlessData(builder, applicationId, secretKey);
+      SaveDataResult ret1 = await data.saveData("Test", {"text001":"hello22"});
+      print("#B# ${ret1.keyValues}");
+      expect(true, ret1.isOk);
 
+      SearchBasicDataResult ret2 = await data.searchBasicDataFromLast("Test");
+      print("#B# ${ret2.keyValues}");
+      expect(true, ret2.isOk);
       return "";
     });
   }
