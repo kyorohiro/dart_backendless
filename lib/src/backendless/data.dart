@@ -57,11 +57,11 @@ class BackendlessData {
     return await searchBasicData(tableName, userToken:userToken, command:"${objectId}", version:version);
   }
 
-  Future<SearchBasicDataResult> searchBasicDataCollection(String tableName ,{String nextPage:null, String command:null, String userToken: null, String version: "v1"}) async {
-    return await searchBasicData(tableName, userToken:userToken, command:null, version:version, nextPage:nextPage);
+  Future<SearchBasicDataResult> searchBasicDataCollection(String tableName ,{String advance:"",String nextPage:null, String command:null, String userToken: null, String version: "v1"}) async {
+    return await searchBasicData(tableName, userToken:userToken, command:null, version:version, nextPage:nextPage, advance:advance);
   }
 
-  Future<SearchBasicDataResult> searchBasicData(String tableName ,{String command:null, String userToken: null, String version: "v1", String nextPage:null}) async {
+  Future<SearchBasicDataResult> searchBasicData(String tableName ,{String advance:"",String command:null, String userToken: null, String version: "v1", String nextPage:null}) async {
     TinyNetRequester requester = await this.builder.createRequester();
     Map<String, String> headers = {
       "application-id": applicationId, //
@@ -82,6 +82,11 @@ class BackendlessData {
       url = "https://api.backendless.com/${version}/data/${tableName}${commandProp}";
     } else {
       url = nextPage;
+    }
+    if(url.contains("?") == true){
+      url += "&${advance}";
+    } else {
+      url += "?${advance}";
     }
 
     TinyNetRequesterResponse resonse = await requester.request(
