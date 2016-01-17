@@ -57,7 +57,11 @@ class BackendlessData {
     return await searchBasicData(tableName, userToken:userToken, command:"${objectId}", version:version);
   }
 
-  Future<SearchBasicDataResult> searchBasicData(String tableName ,{String command:null, String userToken: null, String version: "v1"}) async {
+  Future<SearchBasicDataResult> searchBasicDataCollection(String tableName ,{String nextPage:null, String command:null, String userToken: null, String version: "v1"}) async {
+    return await searchBasicData(tableName, userToken:userToken, command:null, version:version, nextPage:nextPage);
+  }
+
+  Future<SearchBasicDataResult> searchBasicData(String tableName ,{String command:null, String userToken: null, String version: "v1", String nextPage:null}) async {
     TinyNetRequester requester = await this.builder.createRequester();
     Map<String, String> headers = {
       "application-id": applicationId, //
@@ -73,14 +77,22 @@ class BackendlessData {
     if(command != null) {
       commandProp = "/${command}";
     }
+    String url = "";
+    if(nextPage == null) {
+      url = "https://api.backendless.com/${version}/data/${tableName}${commandProp}";
+    } else {
+      url = nextPage;
+    }
+
     TinyNetRequesterResponse resonse = await requester.request(
         TinyNetRequester.TYPE_GET, //
-        "https://api.backendless.com/${version}/data/${tableName}${commandProp}", //
+        url, //
         headers: headers);
 
     return new SearchBasicDataResult.fromResponse(resonse);
   }
 }
+
 
 class SearchBasicDataResult {
   bool isOk = false;
@@ -88,7 +100,11 @@ class SearchBasicDataResult {
   String message = "";
   int code = 9999;
   Map keyValues = {};
+  List<Map<String,Object>> data = [];
   int statusCode = 0;
+  String nextPage = "";
+  int offset = 0;
+  int totalObjects = 0;
 
   SearchBasicDataResult.fromResponse(TinyNetRequesterResponse r) {
     String utf8binary = UTF8.decode(r.response.asUint8List());
@@ -109,7 +125,22 @@ class SearchBasicDataResult {
     if (keyValues.containsKey("message")) {
       message = keyValues["message"];
     }
+    if (keyValues.containsKey("data")) {
+      try {
+        data = keyValues["data"];
+      } catch(e){}
+    }
+    if (keyValues.containsKey("next page")) {
+      nextPage = keyValues["next page"];
+    }
+    if (keyValues.containsKey("offset")) {
+      offset = keyValues["offset"];
+    }
+    if (keyValues.containsKey("totalObjects")) {
+      totalObjects = keyValues["totalObjects"];
+    }
   }
+
 }
 
 class RetrieveSchemeDefinitionResultItem {

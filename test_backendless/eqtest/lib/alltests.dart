@@ -81,6 +81,11 @@ class TestData {
       SearchBasicDataResult ret2 = await data.searchBasicDataFromLast("Test");
       print("#B# ${ret2.keyValues}");
       expect(true, ret2.isOk);
+
+      SearchBasicDataResult ret3 = await data.searchBasicDataCollection("Test");
+      print("#B# ${ret3.keyValues}");
+      expect(true, ret3.isOk);
+
       return "";
     });
   }
