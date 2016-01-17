@@ -96,8 +96,63 @@ class BackendlessData {
 
     return new SearchBasicDataResult.fromResponse(resonse);
   }
-}
 
+
+  Future<DeleteDataResult> deleteData(String tableName, String objectId, {String userToken: null, String version: "v1"}) async {
+    TinyNetRequester requester = await this.builder.createRequester();
+    Map<String, String> headers = {
+      "application-id": applicationId, //
+      "secret-key": secretKey, //
+      "application-type": "REST", //
+      "Content-Type": "application/json" //
+    };
+    if (userToken != null) {
+      headers["user-token"] = userToken;
+    }
+    TinyNetRequesterResponse resonse = await requester.request(
+        TinyNetRequester.TYPE_DELETE, //
+        "https://api.backendless.com/${version}/data/${tableName}/${objectId}", //
+        headers: headers);
+
+    return new DeleteDataResult.fromResponse(resonse);
+  }
+}
+class DeleteDataResult {
+  bool isOk = false;
+  String objectId = "";
+  String message = "";
+  int code = 9999;
+  Map keyValues = {};
+  List<Map<String,Object>> data = [];
+  int statusCode = 0;
+
+  DeleteDataResult.fromResponse(TinyNetRequesterResponse r) {
+    String utf8binary = UTF8.decode(r.response.asUint8List());
+    statusCode = r.status;
+    if (r.status == 200) {
+      isOk = true;
+    } else {
+      isOk = false;
+    }
+
+    try {
+      keyValues = JSON.decode(utf8binary);
+    } catch (e) {}
+
+    if (keyValues.containsKey("code")) {
+      code = keyValues["code"];
+    }
+    if (keyValues.containsKey("message")) {
+      message = keyValues["message"];
+    }
+    if (keyValues.containsKey("data")) {
+      try {
+        data = keyValues["data"];
+      } catch(e){}
+    }
+  }
+
+}
 
 class SearchBasicDataResult {
   bool isOk = false;
