@@ -6,7 +6,7 @@ class BackendlessData {
   String secretKey;
   BackendlessData(this.builder, this.applicationId, this.secretKey) {}
 
-  Future<SaveDataResult> saveData(String tableName, Map<String, Object> body, {String userToken: null, String version: "v1"}) async {
+  Future<SaveDataResult> saveData(String tableName, Map<String, Object> body, {String objectId:null, String userToken: null, String version: "v1"}) async {
     TinyNetRequester requester = await this.builder.createRequester();
     Map<String, String> headers = {
       "application-id": applicationId, //
@@ -17,9 +17,15 @@ class BackendlessData {
     if (userToken != null) {
       headers["user-token"] = userToken;
     }
+    String opt = "";
+    if(objectId != null) {
+      opt = "/${objectId}";
+    }
+    String url = "https://api.backendless.com/${version}/data/${tableName}${opt}";
+    print("########URL### ${url}");
     TinyNetRequesterResponse resonse = await requester.request(
         TinyNetRequester.TYPE_POST, //
-        "https://api.backendless.com/${version}/data/${tableName}", //
+        url, //
         headers: headers, //
         data: JSON.encode(body));
 
