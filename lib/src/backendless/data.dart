@@ -6,7 +6,7 @@ class BackendlessData {
   String secretKey;
   BackendlessData(this.builder, this.applicationId, this.secretKey) {}
 
-  Future<SaveDataResult> saveData(String tableName, Map<String, Object> body, {String objectId:null, String userToken: null, String version: "v1"}) async {
+  Future<SaveDataResult> saveData(String tableName, Map<String, Object> body, {String objectId: null, String userToken: null, String version: "v1"}) async {
     TinyNetRequester requester = await this.builder.createRequester();
     Map<String, String> headers = {
       "application-id": applicationId, //
@@ -18,7 +18,7 @@ class BackendlessData {
       headers["user-token"] = userToken;
     }
     String opt = "";
-    if(objectId != null) {
+    if (objectId != null) {
       opt = "/${objectId}";
     }
     String url = "https://api.backendless.com/${version}/data/${tableName}${opt}";
@@ -51,23 +51,23 @@ class BackendlessData {
     return new SaveDataResult.fromResponse(resonse);
   }
 
-  Future<SearchBasicDataResult> searchBasicDataFromFirst(String tableName ,{String command:null, String userToken: null, String version: "v1"}) async {
-    return await searchBasicData(tableName, userToken:userToken, command:"first", version:version);
+  Future<SearchBasicDataResult> searchBasicDataFromFirst(String tableName, {String command: null, String userToken: null, String version: "v1"}) async {
+    return await searchBasicData(tableName, userToken: userToken, command: "first", version: version);
   }
 
-  Future<SearchBasicDataResult> searchBasicDataFromLast(String tableName ,{String command:null, String userToken: null, String version: "v1"}) async {
-    return await searchBasicData(tableName, userToken:userToken, command:"last", version:version);
+  Future<SearchBasicDataResult> searchBasicDataFromLast(String tableName, {String command: null, String userToken: null, String version: "v1"}) async {
+    return await searchBasicData(tableName, userToken: userToken, command: "last", version: version);
   }
 
-  Future<SearchBasicDataResult> searchBasicDataFromObjectId(String tableName ,String objectId,{String command:null, String userToken: null, String version: "v1"}) async {
-    return await searchBasicData(tableName, userToken:userToken, command:"${objectId}", version:version);
+  Future<SearchBasicDataResult> searchBasicDataFromObjectId(String tableName, String objectId, {String command: null, String userToken: null, String version: "v1"}) async {
+    return await searchBasicData(tableName, userToken: userToken, command: "${objectId}", version: version);
   }
 
-  Future<SearchBasicDataResult> searchBasicDataCollection(String tableName ,{String advance:"",String nextPage:null, String command:null, String userToken: null, String version: "v1"}) async {
-    return await searchBasicData(tableName, userToken:userToken, command:null, version:version, nextPage:nextPage, advance:advance);
+  Future<SearchBasicDataResult> searchBasicDataCollection(String tableName, {String advance: "", String nextPage: null, String command: null, String userToken: null, String version: "v1"}) async {
+    return await searchBasicData(tableName, userToken: userToken, command: null, version: version, nextPage: nextPage, advance: advance);
   }
 
-  Future<SearchBasicDataResult> searchBasicData(String tableName ,{String advance:"",String command:null, String userToken: null, String version: "v1", String nextPage:null}) async {
+  Future<SearchBasicDataResult> searchBasicData(String tableName, {String advance: "", String command: null, String userToken: null, String version: "v1", String nextPage: null}) async {
     TinyNetRequester requester = await this.builder.createRequester();
     Map<String, String> headers = {
       "application-id": applicationId, //
@@ -80,21 +80,25 @@ class BackendlessData {
     }
 
     String commandProp = "";
-    if(command != null) {
+    if (command != null) {
       commandProp = "/${command}";
     }
     String url = "";
-    if(nextPage == null) {
+    if (nextPage == null) {
       url = "https://api.backendless.com/${version}/data/${tableName}${commandProp}";
     } else {
       url = nextPage;
     }
-    if(url.contains("?") == true){
-      url += "&${advance}";
-    } else {
-      url += "?${advance}";
+    if (advance != null && advance.length != 0) {
+      print("#### ad:${advance}");
+      if (url.contains("?") == true) {
+        url += "&${advance}";
+      } else {
+        url += "?${advance}";
+      }
     }
 
+    print("#### ${url}");
     TinyNetRequesterResponse resonse = await requester.request(
         TinyNetRequester.TYPE_GET, //
         url, //
@@ -102,7 +106,6 @@ class BackendlessData {
 
     return new SearchBasicDataResult.fromResponse(resonse);
   }
-
 
   Future<DeleteDataResult> deleteData(String tableName, String objectId, {String userToken: null, String version: "v1"}) async {
     TinyNetRequester requester = await this.builder.createRequester();
@@ -122,13 +125,14 @@ class BackendlessData {
     return new DeleteDataResult.fromResponse(resonse);
   }
 }
+
 class DeleteDataResult {
   bool isOk = false;
   String objectId = "";
   String message = "";
   int code = 9999;
   Map keyValues = {};
-  List<Map<String,Object>> data = [];
+  List<Map<String, Object>> data = [];
   int statusCode = 0;
 
   DeleteDataResult.fromResponse(TinyNetRequesterResponse r) {
@@ -153,10 +157,9 @@ class DeleteDataResult {
     if (keyValues.containsKey("data")) {
       try {
         data = keyValues["data"];
-      } catch(e){}
+      } catch (e) {}
     }
   }
-
 }
 
 class SearchBasicDataResult {
@@ -165,7 +168,7 @@ class SearchBasicDataResult {
   String message = "";
   int code = 9999;
   Map keyValues = {};
-  List<Map<String,Object>> data = [];
+  List<Map<String, Object>> data = [];
   int statusCode = 0;
   String nextPage = "";
   int offset = 0;
@@ -193,7 +196,7 @@ class SearchBasicDataResult {
     if (keyValues.containsKey("data")) {
       try {
         data = keyValues["data"];
-      } catch(e){}
+      } catch (e) {}
     }
     if (keyValues.containsKey("objectId")) {
       objectId = keyValues["objectId"];
@@ -209,7 +212,6 @@ class SearchBasicDataResult {
       totalObjects = keyValues["totalObjects"];
     }
   }
-
 }
 
 class RetrieveSchemeDefinitionResultItem {
