@@ -120,7 +120,11 @@ class TestFile {
       print("\n#Z# ${ret5.keyValues}");
       expect(true, ret5.isOk);
 
-      DeleteFileResult ret4 = await file.deleteFile("test/text2.txt", ret2.userToken);
+      MoveFileResult ret6 = await file.moveFile("test/text2.txt", "test/text1.txt", ret2.userToken);
+      print("\n#Z# ${ret6.keyValues}");
+      expect(true, ret6.isOk);
+
+      DeleteFileResult ret4 = await file.deleteFile("test/text1.txt", ret2.userToken);
       print("\n#Z# ${ret4.keyValues}");
       expect(true, ret4.isOk);
     return "";

@@ -106,6 +106,27 @@ class BackendlessFile {
 
     return new RenameFileResult.fromResponse(resonse);
   }
+
+  Future<MoveFileResult> moveFile(String oldPath, String newPath, String userToken, {String version: "v1"}) async {
+    TinyNetRequester requester = await this.builder.createRequester();
+    Map<String, String> headers = {
+      "application-id": applicationId, //
+      "secret-key": secretKey, //
+      "Content-Type": "application/json",
+      "application-type": "REST"
+    };
+    if (userToken != null) {
+      headers["user-token"] = userToken;
+    }
+    String url = "https://api.backendless.com/${version}/files/move";
+    TinyNetRequesterResponse resonse = await requester.request(
+        TinyNetRequester.TYPE_PUT, //
+        url, //
+        headers: headers,
+        data: JSON.encode({"sourcePath": oldPath, "targetPath": newPath}));
+
+    return new MoveFileResult.fromResponse(resonse);
+  }
 }
 
 class BackendlessResultBase {
@@ -149,6 +170,10 @@ class BackendlessResultBase {
       message = keyValues["message"];
     }
   }
+}
+
+class MoveFileResult extends BackendlessResultBase {
+  MoveFileResult.fromResponse(TinyNetRequesterResponse r) : super.fromResponse(r, isJson: false) {}
 }
 
 class RenameFileResult extends BackendlessResultBase {
