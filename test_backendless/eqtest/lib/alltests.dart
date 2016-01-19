@@ -32,8 +32,13 @@ void kicktests(TinyNetBuilder builder) {
   TestUser user = new TestUser();
   user.kick(builder, appId, restId);
 
+  //
   TestData data = new TestData();
   data.kick(builder, appId, restId);
+
+  //
+  TestFile file = new TestFile();
+  file.kick(builder, appId, restId);
 }
 
 class TestUser {
@@ -91,6 +96,22 @@ class TestData {
       print("\n#D# #${ret2.objectId} ${ret4.keyValues}");
       expect(true, ret4.isOk);
       return "";
+    });
+  }
+}
+
+
+class TestFile {
+  kick(TinyNetBuilder builder, String applicationId, String secretKey) {
+    test("a",() async {
+      BackendlessUser user = new BackendlessUser(builder, applicationId, secretKey);
+      LoginResult ret2 = await user.login("kyorohiro@gmail.com", "asdfasdf");
+
+      BackendlessFile file = new BackendlessFile(builder, applicationId, secretKey);
+      PutFileResult ret1 = await file.putFile("test/text.txt", "Hello World!!", ret2.userToken);
+      print("\n#A# ${ret1.keyValues}");
+      expect(true, ret1.isOk);
+    return "";
     });
   }
 }
