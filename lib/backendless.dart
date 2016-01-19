@@ -16,7 +16,7 @@ class BackendlessFile {
   String secretKey;
   BackendlessFile(this.builder, this.applicationId, this.secretKey) {}
 
-  Future<PutFileResult> putFile(String path, Object data, String userToken, {String opt:"?overwrite=true", String version: "v1"}) async {
+  Future<PutFileResult> putBinary(String path, Object data, String userToken, {String opt:"?overwrite=true", String version: "v1"}) async {
     TinyNetRequester requester = await this.builder.createRequester();
     Map<String, String> headers = {
       "application-id": applicationId, //

@@ -108,7 +108,7 @@ class TestFile {
       LoginResult ret2 = await user.login("kyorohiro@gmail.com", "asdfasdf");
 
       BackendlessFile file = new BackendlessFile(builder, applicationId, secretKey);
-      PutFileResult ret1 = await file.putFile("test/text.txt", "Hello World!!", ret2.userToken);
+      PutFileResult ret1 = await file.putBinary("test/text.txt", "Hello World!!", ret2.userToken);
       print("\n#A# ${ret1.keyValues}");
       expect(true, ret1.isOk);
     return "";
