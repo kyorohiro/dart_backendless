@@ -115,6 +115,14 @@ class TestFile {
       DownloadBinaryResult ret3 = await file.downloadBinary("test/text1.txt", ret2.userToken);
       print("\n#V# ${ret3.keyValues}");
       expect(true, ret3.isOk);
+
+      RenameFileResult ret5 = await file.renameFile("test/text1.txt", "text2.txt", ret2.userToken);
+      print("\n#Z# ${ret5.keyValues}");
+      expect(true, ret5.isOk);
+
+      DeleteFileResult ret4 = await file.deleteFile("test/text2.txt", ret2.userToken);
+      print("\n#Z# ${ret4.keyValues}");
+      expect(true, ret4.isOk);
     return "";
     });
   }

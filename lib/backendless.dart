@@ -66,6 +66,46 @@ class BackendlessFile {
 
     return new DownloadBinaryResult.fromResponse(resonse);
   }
+
+  Future<DeleteFileResult> deleteFile(String path, String userToken, {String version: "v1"}) async {
+    TinyNetRequester requester = await this.builder.createRequester();
+    Map<String, String> headers = {
+      "application-id": applicationId, //
+      "secret-key": secretKey, //
+      "application-type": "REST"
+    };
+    if (userToken != null) {
+      headers["user-token"] = userToken;
+    }
+    String url = "https://api.backendless.com/${applicationId}/${version}/files/${path}";
+    TinyNetRequesterResponse resonse = await requester.request(
+        TinyNetRequester.TYPE_DELETE, //
+        url, //
+        headers: headers);
+
+    return new DeleteFileResult.fromResponse(resonse);
+  }
+
+  Future<RenameFileResult> renameFile(String oldName, String newName, String userToken, {String version: "v1"}) async {
+    TinyNetRequester requester = await this.builder.createRequester();
+    Map<String, String> headers = {
+      "application-id": applicationId, //
+      "secret-key": secretKey, //
+      "Content-Type": "application/json",
+      "application-type": "REST"
+    };
+    if (userToken != null) {
+      headers["user-token"] = userToken;
+    }
+    String url = "https://api.backendless.com/${version}/files/rename";
+    TinyNetRequesterResponse resonse = await requester.request(
+        TinyNetRequester.TYPE_PUT, //
+        url, //
+        headers: headers,
+        data: JSON.encode({"oldPathName": oldName, "newName": newName}));
+
+    return new RenameFileResult.fromResponse(resonse);
+  }
 }
 
 class BackendlessResultBase {
@@ -111,9 +151,16 @@ class BackendlessResultBase {
   }
 }
 
+class RenameFileResult extends BackendlessResultBase {
+  RenameFileResult.fromResponse(TinyNetRequesterResponse r) : super.fromResponse(r, isJson: false) {}
+}
+
+class DeleteFileResult extends BackendlessResultBase {
+  DeleteFileResult.fromResponse(TinyNetRequesterResponse r) : super.fromResponse(r, isJson: false) {}
+}
+
 class DownloadBinaryResult extends BackendlessResultBase {
-  DownloadBinaryResult.fromResponse(TinyNetRequesterResponse r) : super.fromResponse(r, isJson:false) {
-  }
+  DownloadBinaryResult.fromResponse(TinyNetRequesterResponse r) : super.fromResponse(r, isJson: false) {}
 }
 
 class UploadBinaryResult extends BackendlessResultBase {
