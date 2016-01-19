@@ -9,38 +9,33 @@ import 'package:crypto/crypto.dart' as crypt;
 part 'src/backendless/user.dart';
 part 'src/backendless/data.dart';
 
-
 class BackendlessFile {
   TinyNetBuilder builder;
   String applicationId;
   String secretKey;
   BackendlessFile(this.builder, this.applicationId, this.secretKey) {}
 
-  Future<PutFileResult> putBinary(String path, Object data, String userToken, {String opt:"?overwrite=true", String version: "v1"}) async {
+  Future<UploadBinaryResult> uploadBinary(String path, Object data, String userToken, {String opt: "?overwrite=true", String version: "v1"}) async {
     TinyNetRequester requester = await this.builder.createRequester();
     Map<String, String> headers = {
       "application-id": applicationId, //
       "secret-key": secretKey, //
       "application-type": "REST", //
-      "Content-Type":"text/plain" //
+      "Content-Type": "text/plain" //
     };
     if (userToken != null) {
       headers["user-token"] = userToken;
     }
     String url = "https://api.backendless.com/${version}/files/binary/${path}${opt}";
-    if(data is String) {
+    if (data is String) {
       data = crypt.BASE64.encode(UTF8.encode(data));
-    }
-    else if(data is ByteData) {
+    } else if (data is ByteData) {
       data = crypt.BASE64.encode((data as ByteData).buffer.asUint8List());
-    }
-    else if(data is ByteBuffer) {
+    } else if (data is ByteBuffer) {
       data = crypt.BASE64.encode((data as ByteBuffer).asUint8List());
-    }
-    else if(data is List<int>) {
+    } else if (data is List<int>) {
       data = crypt.BASE64.encode((data as List<int>));
-    }
-    else {
+    } else {
       throw new UnsupportedError("unsupport data type");
     }
     TinyNetRequesterResponse resonse = await requester.request(
@@ -49,7 +44,27 @@ class BackendlessFile {
         headers: headers, //
         data: data);
 
-    return new PutFileResult.fromResponse(resonse);
+    return new UploadBinaryResult.fromResponse(resonse);
+  }
+
+  Future<DownloadBinaryResult> downloadBinary(String path, String userToken, {String version: "v1"}) async {
+    TinyNetRequester requester = await this.builder.createRequester();
+    Map<String, String> headers = {
+      "application-id": applicationId, //
+      "secret-key": secretKey, //
+      "application-type": "REST", //
+      "Content-Type": "text/plain" //
+    };
+    if (userToken != null) {
+      headers["user-token"] = userToken;
+    }
+    String url = "https://api.backendless.com/${applicationId}/${version}/files/${path}";
+    TinyNetRequesterResponse resonse = await requester.request(
+        TinyNetRequester.TYPE_GET, //
+        url, //
+        headers: headers);
+
+    return new DownloadBinaryResult.fromResponse(resonse);
   }
 }
 
@@ -61,12 +76,9 @@ class BackendlessResultBase {
   Map keyValues = {};
   int statusCode = 0;
   String utf8binary = "";
+  Uint8List binary = new Uint8List.fromList([]);
 
-  BackendlessResultBase.fromResponse(TinyNetRequesterResponse r) {
-    utf8binary = UTF8.decode(r.response.asUint8List());
-    if(utf8binary == null) {
-      utf8binary = "";
-    }
+  BackendlessResultBase.fromResponse(TinyNetRequesterResponse r, {bool isJson: true}) {
     statusCode = r.status;
     if (r.status == 200) {
       isOk = true;
@@ -75,11 +87,18 @@ class BackendlessResultBase {
     }
 
     try {
-      var v = JSON.decode(utf8binary);
-      if(v is Map) {
-        keyValues = v;
-      } else {
-        print("--${v}");
+      binary = new Uint8List.fromList(r.response.asUint8List());
+      if (isJson == true || isOk == false) {
+        utf8binary = UTF8.decode(r.response.asUint8List());
+        if (utf8binary == null) {
+          utf8binary = "";
+        }
+        var v = JSON.decode(utf8binary);
+        if (v is Map) {
+          keyValues = v;
+        } else {
+          print("--${v}");
+        }
       }
     } catch (e) {}
 
@@ -92,10 +111,15 @@ class BackendlessResultBase {
   }
 }
 
-class PutFileResult extends BackendlessResultBase {
+class DownloadBinaryResult extends BackendlessResultBase {
+  DownloadBinaryResult.fromResponse(TinyNetRequesterResponse r) : super.fromResponse(r, isJson:false) {
+  }
+}
+
+class UploadBinaryResult extends BackendlessResultBase {
   String fileURL = "";
 
-  PutFileResult.fromResponse(TinyNetRequesterResponse r) : super.fromResponse(r){
+  UploadBinaryResult.fromResponse(TinyNetRequesterResponse r) : super.fromResponse(r) {
     fileURL = utf8binary;
   }
 }
