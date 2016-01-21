@@ -4,6 +4,7 @@ version: 0.0.1
 environment:
   sdk: '>=1.0.0 <2.0.0'
 dependencies:
+  crypto: any
   flutter:
     path: /Users/kiyohiro/tools/git/flutter_master/packages/flutter
 dev_dependencies:

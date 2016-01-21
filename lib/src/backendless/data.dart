@@ -32,6 +32,32 @@ class BackendlessData {
     return new SaveDataResult.fromResponse(resonse);
   }
 
+  Future<SaveDataResult> updateData(String tableName, Map<String, Object> body, String objectId, {String userToken: null, String version: "v1"}) async {
+    TinyNetRequester requester = await this.builder.createRequester();
+    Map<String, String> headers = {
+      "application-id": applicationId, //
+      "secret-key": secretKey, //
+      "application-type": "REST", //
+      "Content-Type": "application/json" //
+    };
+    if (userToken != null) {
+      headers["user-token"] = userToken;
+    }
+    String opt = "";
+    if (objectId != null) {
+      opt = "/${objectId}";
+    }
+    String url = "https://api.backendless.com/${version}/data/${tableName}${opt}";
+    print("########URL### ${url}");
+    TinyNetRequesterResponse resonse = await requester.request(
+        TinyNetRequester.TYPE_PUT, //
+        url, //
+        headers: headers, //
+        data: JSON.encode(body));
+
+    return new SaveDataResult.fromResponse(resonse);
+  }
+
   Future<SaveDataResult> retrieveSchemeDefinition(String tableName, {String userToken: null, String version: "v1"}) async {
     TinyNetRequester requester = await this.builder.createRequester();
     Map<String, String> headers = {
