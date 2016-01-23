@@ -23,7 +23,7 @@ class TinyNetFlutterHttpRequester extends TinyNetRequester {
     NetworkServiceProxy networkService = new NetworkServiceProxy.unbound();
     shell.connectToService("m", networkService);
 
-    UrlLoaderProxy loader = new UrlLoaderProxy.unbound();
+    //UrlLoaderProxy loader = new UrlLoaderProxy.unbound();
     UrlRequest request = new UrlRequest();
 
     List<HttpHeader> mojoHeaders = <HttpHeader>[];

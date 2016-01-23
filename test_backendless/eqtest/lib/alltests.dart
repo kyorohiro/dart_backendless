@@ -32,29 +32,31 @@ void kicktests(TinyNetBuilder builder) {
   TestUser user = new TestUser();
   user.kick(builder, appId, restId);
 
+  //
   TestData data = new TestData();
   data.kick(builder, appId, restId);
+
+  //
+  TestFile file = new TestFile();
+  file.kick(builder, appId, restId);
 }
 
 class TestUser {
   kick(TinyNetBuilder builder, String applicationId, String secretKey) {
     test("a",() async {
       BackendlessUser user = new BackendlessUser(builder, applicationId, secretKey);
-      /*
       //RegistResult ret1 =
       await user.regist({
         BackendlessUser.REGIST_EMAIL:"kyorohiro@gmail.com",//
         BackendlessUser.REGIST_NAME:"kyorohiro",//
         BackendlessUser.REGIST_PASSWORD:"asdfasdf"
       });
-    */
       //expect(true, ret1.isOk);
       LoginResult ret2 = await user.login("kyorohiro@gmail.com", "asdfasdf");
       print("${ret2.keyValues}");
       expect(true, ret2.isOk);
       UpdateUserPropertyResult ret22 = await user.updateUserProperty(ret2.objectId, ret2.userToken, {"name":"kyorohiro2"});
       expect(true, ret22.isOk);
-      /*
       //
       GetUserPropertyResult ret21 = await user.getUserProperty(ret2.objectId, ["name","email"]);
       print("#${ret21.keyValues} ${ret21.statusCode}");
@@ -68,7 +70,6 @@ class TestUser {
       //ResetPasswordResult ret4 = await user.resetPassword("kyorohiro");
       //print("${ret4.keyValues}");
       //expect(true, ret4.isOk);
-*/
       return "";
     });
   }
@@ -77,8 +78,56 @@ class TestUser {
 class TestData {
   kick(TinyNetBuilder builder, String applicationId, String secretKey) {
     test("a",() async {
+      BackendlessData data = new BackendlessData(builder, applicationId, secretKey);
+      SaveDataResult ret1 = await data.saveData("Test", {"text001":"hello22"});
+      print("\n#A# ${ret1.keyValues}");
+      expect(true, ret1.isOk);
 
+      SearchBasicDataResult ret2 = await data.searchBasicDataFromLast("Test");
+      print("\n#B# ${ret2.keyValues}");
+      expect(true, ret2.isOk);
+
+      SearchBasicDataResult ret3 = await data.searchBasicDataCollection("Test");
+      print("\n#C# ${ret3.keyValues}");
+      expect(true, ret3.isOk);
+
+
+      DeleteDataResult ret4 = await data.deleteData("Test", ret2.objectId);
+      print("\n#D# #${ret2.objectId} ${ret4.keyValues}");
+      expect(true, ret4.isOk);
       return "";
+    });
+  }
+}
+
+
+class TestFile {
+  kick(TinyNetBuilder builder, String applicationId, String secretKey) {
+    test("a",() async {
+      BackendlessUser user = new BackendlessUser(builder, applicationId, secretKey);
+      LoginResult ret2 = await user.login("kyorohiro@gmail.com", "asdfasdf");
+
+      BackendlessFile file = new BackendlessFile(builder, applicationId, secretKey);
+      UploadBinaryResult ret1 = await file.uploadBinary("test/text1.txt", "Hello World!!", ret2.userToken);
+      print("\n#A# ${ret1.keyValues}");
+      expect(true, ret1.isOk);
+
+      DownloadBinaryResult ret3 = await file.downloadBinary("test/text1.txt", ret2.userToken);
+      print("\n#V# ${ret3.keyValues}");
+      expect(true, ret3.isOk);
+
+      RenameFileResult ret5 = await file.renameFile("test/text1.txt", "text2.txt", ret2.userToken);
+      print("\n#Z# ${ret5.keyValues}");
+      expect(true, ret5.isOk);
+
+      MoveFileResult ret6 = await file.moveFile("test/text2.txt", "test/text1.txt", ret2.userToken);
+      print("\n#Z# ${ret6.keyValues}");
+      expect(true, ret6.isOk);
+
+      DeleteFileResult ret4 = await file.deleteFile("test/text1.txt", ret2.userToken);
+      print("\n#Z# ${ret4.keyValues}");
+      expect(true, ret4.isOk);
+    return "";
     });
   }
 }
