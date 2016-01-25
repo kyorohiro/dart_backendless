@@ -68,6 +68,38 @@ class BackendlessCounter {
         headers: headers);
     return new GetCompareandsetCounterResult.fromResponse(resonse);
   }
+
+  //compareandset
+  Future<GetCurrentCounterResult> getCurrrent(String counterName, {String userToken: null, String version: "v1"}) async {
+    TinyNetRequester requester = await this.builder.createRequester();
+    Map<String, String> headers = {
+      "application-id": applicationId, //
+      "secret-key": secretKey, //
+      "application-type": "REST"
+    };
+    if (userToken != null) {
+      headers["user-token"] = userToken;
+    }
+    String url = "https://api.backendless.com/${version}/counters/${counterName}";
+    print("########URL### ${url}");
+    TinyNetRequesterResponse resonse = await requester.request(
+        TinyNetRequester.TYPE_GET, //
+        url, //
+        headers: headers);
+    return new GetCurrentCounterResult.fromResponse(resonse);
+  }
+}
+
+class GetCurrentCounterResult  extends BackendlessResultBase {
+  int count = 0;
+  GetCurrentCounterResult.fromResponse(TinyNetRequesterResponse r) : super.fromResponse(r, isJson: false) {
+    try {
+      String r = UTF8.decode(this.binary);
+      count = int.parse(r);
+    } catch (e) {
+      isOk = false;
+    }
+  }
 }
 
 class GetCompareandsetCounterResult extends BackendlessResultBase {

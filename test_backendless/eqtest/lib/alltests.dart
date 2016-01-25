@@ -169,6 +169,12 @@ class TestCounter {
         print("#A3#${r.counterUpdated}");
       }
 
+      {
+        GetCurrentCounterResult r = await counter.getCurrrent("test");
+        print("#B1#${r.statusCode}");
+        print("#B2#${r.keyValues}");
+        print("#B3#${r.count}");
+      }
       return "";
     });
   }
