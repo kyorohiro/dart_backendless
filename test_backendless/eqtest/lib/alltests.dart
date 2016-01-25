@@ -39,6 +39,9 @@ void kicktests(TinyNetBuilder builder) {
   //
   TestFile file = new TestFile();
   file.kick(builder, appId, restId);
+
+  TestCounter counter = new TestCounter();
+  counter.kick(builder, appId, restId);
 }
 
 class TestUser {
@@ -131,3 +134,25 @@ class TestFile {
     });
   }
 }
+
+class TestCounter {
+  kick(TinyNetBuilder builder, String applicationId, String secretKey) {
+    test("a",() async {
+      BackendlessCounter counter = new BackendlessCounter(builder, applicationId, secretKey);
+      {
+      IncrementGetCounterResult r = await counter.incrementGet("test");
+      print("#1#${r.statusCode}");
+      print("#2#${r.keyValues}");
+      print("#3#${r.count}");
+    }
+    {
+      IncrementGetCounterResult r = await counter.incrementGet("test1");
+      print("#1#${r.statusCode}");
+      print("#2#${r.keyValues}");
+      print("#3#${r.count}");
+    }
+    return "";
+    });
+  }
+}
+//BackendlessCounter

@@ -9,6 +9,7 @@ import 'package:crypto/crypto.dart' as crypt;
 part 'src/backendless/user.dart';
 part 'src/backendless/data.dart';
 part 'src/backendless/file.dart';
+part 'src/backendless/counter.dart';
 
 class BackendlessResultBase {
   bool isOk = false;
