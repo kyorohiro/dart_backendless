@@ -175,6 +175,18 @@ class TestCounter {
         print("#B2#${r.keyValues}");
         print("#B3#${r.count}");
       }
+      {
+        ResetCounterResult r = await counter.resetCurrent("test");
+        print("#C1#${r.statusCode}");
+        print("#C2#${r.keyValues}");
+        print("#C3#${r.isOk}");
+      }
+      {
+        GetCurrentCounterResult r = await counter.getCurrrent("test");
+        print("#D1#${r.statusCode}");
+        print("#D2#${r.keyValues}");
+        print("#D3#${r.count}");
+      }
       return "";
     });
   }
