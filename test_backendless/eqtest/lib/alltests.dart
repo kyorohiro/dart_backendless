@@ -139,53 +139,45 @@ class TestCounter {
     test("a", () async {
       BackendlessCounter counter = new BackendlessCounter(builder, applicationId, secretKey);
       {
+        ResetCounterResult r = await counter.resetCurrent("test");
+        expect(true, r.isOk);
+      }
+      {
+        GetCurrentCounterResult r = await counter.getCurrrent("test");
+        expect(r.count, 0);
+      }
+      {
         IncrementGetCounterResult r = await counter.incrementGet("test");
-        print("#1#${r.statusCode}");
-        print("#2#${r.keyValues}");
-        print("#3#${r.count}");
+        expect(r.count, 1);
       }
       {
         IncrementGetCounterResult r = await counter.incrementGet("test",value: 100);
-        print("#1#${r.statusCode}");
-        print("#2#${r.keyValues}");
-        print("#3#${r.count}");
+        expect(r.count, 101);
       }
       {
         IncrementGetCounterResult r = await counter.incrementGet("test",value: -100);
-        print("#1#${r.statusCode}");
-        print("#2#${r.keyValues}");
-        print("#3#${r.count}");
+        expect(r.count, 1);
       }
       {
         DecrementGetCounterResult r = await counter.decrementGet("test");
-        print("#1#${r.statusCode}");
-        print("#2#${r.keyValues}");
-        print("#3#${r.count}");
+        expect(r.count, 0);
       }
       {
-        GetCompareandsetCounterResult r = await counter.getCompareandSet("test", 17,18);
-        print("#A1#${r.statusCode}");
-        print("#A2#${r.keyValues}");
-        print("#A3#${r.counterUpdated}");
+        GetCompareandsetCounterResult r = await counter.getCompareandSet("test", 0,10);
+        expect(r.counterUpdated, true);
       }
 
       {
         GetCurrentCounterResult r = await counter.getCurrrent("test");
-        print("#B1#${r.statusCode}");
-        print("#B2#${r.keyValues}");
-        print("#B3#${r.count}");
+        expect(r.count, 10);
       }
       {
         ResetCounterResult r = await counter.resetCurrent("test");
-        print("#C1#${r.statusCode}");
-        print("#C2#${r.keyValues}");
-        print("#C3#${r.isOk}");
+        expect(true, r.isOk);
       }
       {
         GetCurrentCounterResult r = await counter.getCurrrent("test");
-        print("#D1#${r.statusCode}");
-        print("#D2#${r.keyValues}");
-        print("#D3#${r.count}");
+        expect(0, r.count);
       }
       return "";
     });
