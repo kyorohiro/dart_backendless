@@ -109,193 +109,36 @@ class BackendlessUser {
   }
 }
 
-class ResetPasswordResult {
-  bool isOk = false;
-  String objectId = "";
-  String message = "";
-  int code = 9999;
-  Map keyValues = {};
-  int statusCode = 0;
-
-  ResetPasswordResult.fromResponse(TinyNetRequesterResponse r) {
-    String utf8binary = UTF8.decode(r.response.asUint8List());
-    statusCode = r.status;
-    if (r.status == 200) {
-      isOk = true;
-    } else {
-      isOk = false;
-    }
-
-    try {
-      keyValues = JSON.decode(utf8binary);
-    } catch (e) {}
-
-    if (keyValues.containsKey("code")) {
-      code = keyValues["code"];
-    }
-    if (keyValues.containsKey("message")) {
-      message = keyValues["message"];
-    }
+class ResetPasswordResult  extends BackendlessResultBase {
+  ResetPasswordResult.fromResponse(TinyNetRequesterResponse r) : super.fromResponse(r) {
   }
 }
 
-class UpdateUserPropertyResult {
-  bool isOk = false;
-  String objectId = "";
-  String message = "";
-  int code = 9999;
-  Map keyValues = {};
-  int statusCode = 0;
-
-  UpdateUserPropertyResult.fromResponse(TinyNetRequesterResponse r) {
-    String utf8binary = UTF8.decode(r.response.asUint8List());
-    statusCode = r.status;
-    if (r.status == 200) {
-      isOk = true;
-    } else {
-      isOk = false;
-    }
-
-    try {
-      keyValues = JSON.decode(utf8binary);
-    } catch (e) {}
-
-    if (keyValues.containsKey("code")) {
-      code = keyValues["code"];
-    }
-    if (keyValues.containsKey("message")) {
-      message = keyValues["message"];
-    }
+class UpdateUserPropertyResult extends BackendlessResultBase {
+  UpdateUserPropertyResult.fromResponse(TinyNetRequesterResponse r) : super.fromResponse(r) {
   }
 }
 
-class GetUserPropertyResult {
-  bool isOk = false;
-  String objectId = "";
-  String message = "";
-  int code = 9999;
-  Map keyValues = {};
-  int statusCode = 0;
-
-  GetUserPropertyResult.fromResponse(TinyNetRequesterResponse r) {
-    String utf8binary = UTF8.decode(r.response.asUint8List());
-    statusCode = r.status;
-    if (r.status == 200) {
-      isOk = true;
-    } else {
-      isOk = false;
-    }
-
-    try {
-      keyValues = JSON.decode(utf8binary);
-    } catch (e) {}
-
-    if (keyValues.containsKey("code")) {
-      code = keyValues["code"];
-    }
-    if (keyValues.containsKey("message")) {
-      message = keyValues["message"];
-    }
+class GetUserPropertyResult extends BackendlessResultBase {
+  GetUserPropertyResult.fromResponse(TinyNetRequesterResponse r) : super.fromResponse(r) {
   }
 }
 
-class LogoutResult {
-  bool isOk = false;
-  String objectId = "";
-  String message = "";
-  int code = 9999;
-  Map keyValues = {};
-  int statusCode = 0;
-
-  LogoutResult.fromResponse(TinyNetRequesterResponse r) {
-    String utf8binary = UTF8.decode(r.response.asUint8List());
-
-    try {
-      keyValues = JSON.decode(utf8binary);
-    } catch (e) {}
-
-    if (keyValues.containsKey("code")) {
-      code = keyValues["code"];
-    }
-    if (keyValues.containsKey("message")) {
-      message = keyValues["message"];
-    }
-
-    statusCode = r.status;
-
-    if (r.status == 200) {
-      isOk = true;
-    } else {
-      isOk = false;
-    }
+class LogoutResult extends BackendlessResultBase {
+  LogoutResult.fromResponse(TinyNetRequesterResponse r) : super.fromResponse(r) {
   }
 }
 
-class RegistResult {
-  bool isOk = false;
-  String objectId = "";
-  String message = "";
-  int code = 9999;
-  int statusCode = 0;
-  Map keyValues = {};
-
-  RegistResult.fromResponse(TinyNetRequesterResponse r) {
-    String utf8binary = UTF8.decode(r.response.asUint8List());
-    try {
-      keyValues = JSON.decode(utf8binary);
-    } catch (e) {}
-    if (keyValues.containsKey("objectId")) {
-      objectId = keyValues["objectId"];
-    }
-    if (keyValues.containsKey("code")) {
-      code = keyValues["code"];
-    }
-    if (keyValues.containsKey("message")) {
-      message = keyValues["message"];
-    }
-    statusCode = r.status;
-    if (r.status == 200) {
-      isOk = true;
-    } else {
-      isOk = false;
-    }
+class RegistResult extends BackendlessResultBase {
+  RegistResult.fromResponse(TinyNetRequesterResponse r) : super.fromResponse(r) {
   }
 }
 
-class LoginResult {
-  bool isOk = false;
+class LoginResult extends BackendlessResultBase {
   String userToken = "";
-  String objectId = "";
-  String message = "";
-  int code = 9999;
-  Map keyValues = {};
-  int statusCode = 0;
-
-  LoginResult.fromResponse(TinyNetRequesterResponse r) {
-    String utf8binary = UTF8.decode(r.response.asUint8List());
-
-    try {
-      keyValues = JSON.decode(utf8binary);
-    } catch (e) {}
-
+  LoginResult.fromResponse(TinyNetRequesterResponse r) : super.fromResponse(r) {
     if (keyValues.containsKey("user-token")) {
       userToken = keyValues["user-token"];
-    }
-    if (keyValues.containsKey("objectId")) {
-      objectId = keyValues["objectId"];
-    }
-    if (keyValues.containsKey("code")) {
-      code = keyValues["code"];
-    }
-    if (keyValues.containsKey("message")) {
-      message = keyValues["message"];
-    }
-
-    statusCode = r.status;
-    if (r.status == 200 && userToken != null && userToken.length != 0) {
-      isOk = true;
-    } else {
-      isOk = false;
     }
   }
 }
