@@ -111,24 +111,24 @@ class TestFile {
       LoginResult ret2 = await user.login("kyorohiro@gmail.com", "asdfasdf");
 
       BackendlessFile file = new BackendlessFile(builder, applicationId, secretKey);
-      UploadBinaryResult ret1 = await file.uploadBinary("test/text1.txt", "Hello World!!", ret2.userToken);
-      print("\n#A# ${ret1.keyValues}");
+      UploadBinaryResult ret1 = await file.uploadBinary("tests/text1.txt", "Hello World!!", ret2.userToken);
+      print("\n#AAAAA# ${ret1.keyValues}");
       expect(true, ret1.isOk);
 
-      DownloadBinaryResult ret3 = await file.downloadBinary("test/text1.txt", ret2.userToken);
-      print("\n#V# ${ret3.keyValues}");
+      DownloadBinaryResult ret3 = await file.downloadBinary("tests/text1.txt", ret2.userToken);
+      print("\n#VVVVVV# ${ret3.keyValues}");
       expect(true, ret3.isOk);
 
-      RenameFileResult ret5 = await file.renameFile("test/text1.txt", "text2.txt", ret2.userToken);
-      print("\n#Z# ${ret5.keyValues}");
+      RenameFileResult ret5 = await file.renameFile("tests/text1.txt", "text2.txt", ret2.userToken);
+      print("\n#ZZZZZZ# ${ret5.keyValues}");
       expect(true, ret5.isOk);
 
-      MoveFileResult ret6 = await file.moveFile("test/text2.txt", "test/text1.txt", ret2.userToken);
-      print("\n#Z# ${ret6.keyValues}");
+      MoveFileResult ret6 = await file.moveFile("tests/text2.txt", "tests/text3.txt", ret2.userToken);
+      print("\n#ZZZZZA# ${ret6.keyValues}");
       expect(true, ret6.isOk);
 
-      DeleteFileResult ret4 = await file.deleteFile("test/text1.txt", ret2.userToken);
-      print("\n#Z# ${ret4.keyValues}");
+      DeleteFileResult ret4 = await file.deleteFile("tests/text3.txt", ret2.userToken);
+      print("\n#ZZZZZB# ${ret4.keyValues}");
       expect(true, ret4.isOk);
     return "";
     });
@@ -146,7 +146,7 @@ class TestCounter {
       print("#3#${r.count}");
     }
     {
-      IncrementGetCounterResult r = await counter.incrementGet("test1");
+      DecrementGetCounterResult r = await counter.decrementGet("test");
       print("#1#${r.statusCode}");
       print("#2#${r.keyValues}");
       print("#3#${r.count}");
