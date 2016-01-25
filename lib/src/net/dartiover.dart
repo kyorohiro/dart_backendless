@@ -25,8 +25,10 @@ class TinyNetDartIoHttpRequester extends TinyNetRequester {
     } else {
       throw new UnsupportedError("");
     }
+    req.headers.removeAll("Accept-Encoding");
     for (String k in headers.keys) {
-      req.headers.add(k, headers[k]);
+      req.headers.set(k, headers[k]);
+//      req.headers.add(k, headers[k]);
     }
     if (data != null) {
       if (data == ByteBuffer) {
