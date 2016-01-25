@@ -132,7 +132,6 @@ class GetCompareandsetCounterResult extends BackendlessResultBase {
   GetCompareandsetCounterResult.fromResponse(TinyNetRequesterResponse r) : super.fromResponse(r, isJson: false) {
     try {
       String r = UTF8.decode(this.binary);
-      print("############## ${r}");
       if(r == "true"){
         counterUpdated = true;
       } else {

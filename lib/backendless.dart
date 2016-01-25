@@ -44,12 +44,17 @@ class BackendlessResultBase {
         }
       }
     } catch (e) {}
-
+    if (keyValues.containsKey("objectId")) {
+      objectId = keyValues["objectId"];
+    }
     if (keyValues.containsKey("code")) {
       code = keyValues["code"];
     }
     if (keyValues.containsKey("message")) {
       message = keyValues["message"];
     }
+
+
+
   }
 }

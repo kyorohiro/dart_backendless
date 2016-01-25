@@ -152,34 +152,10 @@ class BackendlessData {
   }
 }
 
-class DeleteDataResult {
-  bool isOk = false;
-  String objectId = "";
-  String message = "";
-  int code = 9999;
-  Map keyValues = {};
+class DeleteDataResult extends BackendlessResultBase {
   List<Map<String, Object>> data = [];
-  int statusCode = 0;
 
-  DeleteDataResult.fromResponse(TinyNetRequesterResponse r) {
-    String utf8binary = UTF8.decode(r.response.asUint8List());
-    statusCode = r.status;
-    if (r.status == 200) {
-      isOk = true;
-    } else {
-      isOk = false;
-    }
-
-    try {
-      keyValues = JSON.decode(utf8binary);
-    } catch (e) {}
-
-    if (keyValues.containsKey("code")) {
-      code = keyValues["code"];
-    }
-    if (keyValues.containsKey("message")) {
-      message = keyValues["message"];
-    }
+  DeleteDataResult.fromResponse(TinyNetRequesterResponse r) : super.fromResponse(r) {
     if (keyValues.containsKey("data")) {
       try {
         data = keyValues["data"];
@@ -188,44 +164,17 @@ class DeleteDataResult {
   }
 }
 
-class SearchBasicDataResult {
-  bool isOk = false;
-  String objectId = "";
-  String message = "";
-  int code = 9999;
-  Map keyValues = {};
+class SearchBasicDataResult extends BackendlessResultBase {
   List<Map<String, Object>> data = [];
-  int statusCode = 0;
   String nextPage = "";
   int offset = 0;
   int totalObjects = 0;
 
-  SearchBasicDataResult.fromResponse(TinyNetRequesterResponse r) {
-    String utf8binary = UTF8.decode(r.response.asUint8List());
-    statusCode = r.status;
-    if (r.status == 200) {
-      isOk = true;
-    } else {
-      isOk = false;
-    }
-
-    try {
-      keyValues = JSON.decode(utf8binary);
-    } catch (e) {}
-
-    if (keyValues.containsKey("code")) {
-      code = keyValues["code"];
-    }
-    if (keyValues.containsKey("message")) {
-      message = keyValues["message"];
-    }
+  SearchBasicDataResult.fromResponse(TinyNetRequesterResponse r) : super.fromResponse(r) {
     if (keyValues.containsKey("data")) {
       try {
         data = keyValues["data"];
       } catch (e) {}
-    }
-    if (keyValues.containsKey("objectId")) {
-      objectId = keyValues["objectId"];
     }
 
     if (keyValues.containsKey("next page")) {
@@ -277,98 +226,23 @@ class RetrieveSchemeDefinitionResultItem {
   }
 }
 
-class RetrieveSchemeDefinitionResult {
-  bool isOk = false;
-
-  //
-  String message = "";
-  int code = 9999;
-  Map keyValues = {};
-  List<Map<Object, Object>> columnSources = [];
+class RetrieveSchemeDefinitionResult extends BackendlessResultBase {
   List<RetrieveSchemeDefinitionResultItem> columns = [];
-  int statusCode = 0;
-  RetrieveSchemeDefinitionResult.fromResponse(TinyNetRequesterResponse r) {
+  RetrieveSchemeDefinitionResult.fromResponse(TinyNetRequesterResponse r) : super.fromResponse(r) {
     String utf8binary = UTF8.decode(r.response.asUint8List());
-
-    statusCode = r.status;
-    if (r.status == 200) {
-      isOk = true;
-    } else {
-      isOk = false;
-    }
-
     try {
       var t = JSON.decode(utf8binary);
-      if (t is Map) {
-        keyValues = JSON.decode(utf8binary);
-      }
       if (t is List) {
-        columnSources = t;
+        List<Map<Object, Object>> columnSources = t;
+        for (Map m in columnSources) {
+          columns.add(new RetrieveSchemeDefinitionResultItem.fromMap(m));
+        }
       }
     } catch (e) {}
-
-    if (keyValues.containsKey("code")) {
-      code = keyValues["code"];
-    }
-    if (keyValues.containsKey("message")) {
-      message = keyValues["message"];
-    }
-
-    for (Map m in columnSources) {
-      columns.add(new RetrieveSchemeDefinitionResultItem.fromMap(m));
-    }
   }
 }
 
-class SaveDataResult {
-  bool isOk = false;
-  //
-  String objectId = "";
-  String updated = "";
-  String created = "";
-  String ownerId = "";
-  String classId = "";
-
-  //
-  String message = "";
-  int code = 9999;
-  Map keyValues = {};
-  int statusCode = 0;
-
-  SaveDataResult.fromResponse(TinyNetRequesterResponse r) {
-    String utf8binary = UTF8.decode(r.response.asUint8List());
-
-    statusCode = r.status;
-    if (r.status == 200) {
-      isOk = true;
-    } else {
-      isOk = false;
-    }
-
-    try {
-      keyValues = JSON.decode(utf8binary);
-    } catch (e) {}
-
-    if (keyValues.containsKey("code")) {
-      code = keyValues["code"];
-    }
-    if (keyValues.containsKey("message")) {
-      message = keyValues["message"];
-    }
-    if (keyValues.containsKey("updated")) {
-      updated = keyValues["updated"];
-    }
-    if (keyValues.containsKey("created")) {
-      created = keyValues["created"];
-    }
-    if (keyValues.containsKey("ownerId")) {
-      ownerId = keyValues["ownerId"];
-    }
-    if (keyValues.containsKey("objectId")) {
-      objectId = keyValues["objectId"];
-    }
-    if (keyValues.containsKey("___class")) {
-      classId = keyValues["___class"];
-    }
+class SaveDataResult extends BackendlessResultBase {
+  SaveDataResult.fromResponse(TinyNetRequesterResponse r) : super.fromResponse(r) {
   }
 }
