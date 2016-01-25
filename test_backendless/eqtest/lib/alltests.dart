@@ -162,6 +162,13 @@ class TestCounter {
         print("#2#${r.keyValues}");
         print("#3#${r.count}");
       }
+      {
+        GetCompareandsetCounterResult r = await counter.getCompareandSet("test", 17,18);
+        print("#A1#${r.statusCode}");
+        print("#A2#${r.keyValues}");
+        print("#A3#${r.counterUpdated}");
+      }
+
       return "";
     });
   }
