@@ -1,4 +1,5 @@
 library test_backendless;
+
 import 'package:unittest/unittest.dart';
 import 'package:umiuni2d_netbox/backendless.dart';
 import 'package:umiuni2d_netbox/tinynet.dart';
@@ -6,23 +7,23 @@ import 'dart:convert' as conv;
 
 import 'package:crypto/crypto.dart' as crypt;
 
-String _key ="44Gr44KT44GS44KT44Gw44KT44GY44GV44GE44GK44GG44GM44GG44G+44Os44Kk44K444O844Oz44K744Kk44OQ44O844OY44O844Ky44Oz44Gq44KL44GX44G+44KG44KK44GS44KT44GY44KF44GG44G244KT44GX44KH";
-String _restId ="27GYoMPR0Le/obKl26yAoLSgzsfe0sC4p8S82rK/17my27G8";
+String _key = "44Gr44KT44GS44KT44Gw44KT44GY44GV44GE44GK44GG44GM44GG44G+44Os44Kk44K444O844Oz44K744Kk44OQ44O844OY44O844Ky44Oz44Gq44KL44GX44G+44KG44KK44GS44KT44GY44KF44GG44G244KT44GX44KH";
+String _restId = "27GYoMPR0Le/obKl26yAoLSgzsfe0sC4p8S82rK/17my27G8";
 String _appId = "17nt1LfXp7m/prWq2qyC1MTWzsfe1re40rnF17bMpbC007G8";
 
 String get restId {
-  List<int> v1 = crypt.CryptoUtils.base64StringToBytes(_key);//conv.BASE64.decode(_key);
-  List<int> d1 = crypt.CryptoUtils.base64StringToBytes(_restId);//conv.BASE64.decode(_restId);
-  for(int i=0;i<v1.length && i < d1.length;i++) {
+  List<int> v1 = crypt.CryptoUtils.base64StringToBytes(_key); //conv.BASE64.decode(_key);
+  List<int> d1 = crypt.CryptoUtils.base64StringToBytes(_restId); //conv.BASE64.decode(_restId);
+  for (int i = 0; i < v1.length && i < d1.length; i++) {
     d1[i] = d1[i] ^ v1[i];
   }
   return conv.UTF8.decode(d1);
 }
 
 String get appId {
-  List<int> v1 = crypt.CryptoUtils.base64StringToBytes(_key);//conv.BASE64.decode(_key);
-  List<int> d1 = crypt.CryptoUtils.base64StringToBytes(_appId);//conv.BASE64.decode(_appId);
-  for(int i=0;i<v1.length && i < d1.length;i++) {
+  List<int> v1 = crypt.CryptoUtils.base64StringToBytes(_key); //conv.BASE64.decode(_key);
+  List<int> d1 = crypt.CryptoUtils.base64StringToBytes(_appId); //conv.BASE64.decode(_appId);
+  for (int i = 0; i < v1.length && i < d1.length; i++) {
     d1[i] = d1[i] ^ v1[i];
   }
   return conv.UTF8.decode(d1);
@@ -46,22 +47,22 @@ void kicktests(TinyNetBuilder builder) {
 
 class TestUser {
   kick(TinyNetBuilder builder, String applicationId, String secretKey) {
-    test("a",() async {
+    test("a", () async {
       BackendlessUser user = new BackendlessUser(builder, applicationId, secretKey);
       //RegistResult ret1 =
       await user.regist({
-        BackendlessUser.REGIST_EMAIL:"kyorohiro@gmail.com",//
-        BackendlessUser.REGIST_NAME:"kyorohiro",//
-        BackendlessUser.REGIST_PASSWORD:"asdfasdf"
+        BackendlessUser.REGIST_EMAIL: "kyorohiro@gmail.com", //
+        BackendlessUser.REGIST_NAME: "kyorohiro", //
+        BackendlessUser.REGIST_PASSWORD: "asdfasdf"
       });
       //expect(true, ret1.isOk);
       LoginResult ret2 = await user.login("kyorohiro@gmail.com", "asdfasdf");
       print("${ret2.keyValues}");
       expect(true, ret2.isOk);
-      UpdateUserPropertyResult ret22 = await user.updateUserProperty(ret2.objectId, ret2.userToken, {"name":"kyorohiro2"});
+      UpdateUserPropertyResult ret22 = await user.updateUserProperty(ret2.objectId, ret2.userToken, {"name": "kyorohiro2"});
       expect(true, ret22.isOk);
       //
-      GetUserPropertyResult ret21 = await user.getUserProperty(ret2.objectId, ["name","email"]);
+      GetUserPropertyResult ret21 = await user.getUserProperty(ret2.objectId, ["name", "email"]);
       print("#${ret21.keyValues} ${ret21.statusCode}");
       expect(true, ret21.isOk);
       expect("kyorohiro2", ret21.keyValues["name"]);
@@ -80,9 +81,9 @@ class TestUser {
 
 class TestData {
   kick(TinyNetBuilder builder, String applicationId, String secretKey) {
-    test("a",() async {
+    test("a", () async {
       BackendlessData data = new BackendlessData(builder, applicationId, secretKey);
-      SaveDataResult ret1 = await data.saveData("Test", {"text001":"hello22"});
+      SaveDataResult ret1 = await data.saveData("Test", {"text001": "hello22"});
       print("\n#A# ${ret1.keyValues}");
       expect(true, ret1.isOk);
 
@@ -94,7 +95,6 @@ class TestData {
       print("\n#C# ${ret3.keyValues}");
       expect(true, ret3.isOk);
 
-
       DeleteDataResult ret4 = await data.deleteData("Test", ret2.objectId);
       print("\n#D# #${ret2.objectId} ${ret4.keyValues}");
       expect(true, ret4.isOk);
@@ -103,10 +103,9 @@ class TestData {
   }
 }
 
-
 class TestFile {
   kick(TinyNetBuilder builder, String applicationId, String secretKey) {
-    test("a",() async {
+    test("a", () async {
       BackendlessUser user = new BackendlessUser(builder, applicationId, secretKey);
       LoginResult ret2 = await user.login("kyorohiro@gmail.com", "asdfasdf");
 
@@ -130,28 +129,40 @@ class TestFile {
       DeleteFileResult ret4 = await file.deleteFile("tests/text3.txt", ret2.userToken);
       print("\n#ZZZZZB# ${ret4.keyValues}");
       expect(true, ret4.isOk);
-    return "";
+      return "";
     });
   }
 }
 
 class TestCounter {
   kick(TinyNetBuilder builder, String applicationId, String secretKey) {
-    test("a",() async {
+    test("a", () async {
       BackendlessCounter counter = new BackendlessCounter(builder, applicationId, secretKey);
       {
-      IncrementGetCounterResult r = await counter.incrementGet("test");
-      print("#1#${r.statusCode}");
-      print("#2#${r.keyValues}");
-      print("#3#${r.count}");
-    }
-    {
-      DecrementGetCounterResult r = await counter.decrementGet("test");
-      print("#1#${r.statusCode}");
-      print("#2#${r.keyValues}");
-      print("#3#${r.count}");
-    }
-    return "";
+        IncrementGetCounterResult r = await counter.incrementGet("test");
+        print("#1#${r.statusCode}");
+        print("#2#${r.keyValues}");
+        print("#3#${r.count}");
+      }
+      {
+        IncrementGetCounterResult r = await counter.incrementGet("test",value: 100);
+        print("#1#${r.statusCode}");
+        print("#2#${r.keyValues}");
+        print("#3#${r.count}");
+      }
+      {
+        IncrementGetCounterResult r = await counter.incrementGet("test",value: -100);
+        print("#1#${r.statusCode}");
+        print("#2#${r.keyValues}");
+        print("#3#${r.count}");
+      }
+      {
+        DecrementGetCounterResult r = await counter.decrementGet("test");
+        print("#1#${r.statusCode}");
+        print("#2#${r.keyValues}");
+        print("#3#${r.count}");
+      }
+      return "";
     });
   }
 }
