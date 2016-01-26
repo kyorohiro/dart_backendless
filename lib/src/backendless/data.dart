@@ -177,8 +177,8 @@ class SearchBasicDataResult extends BackendlessResultBase {
       } catch (e) {}
     }
 
-    if (keyValues.containsKey("next page")) {
-      nextPage = keyValues["next page"];
+    if (keyValues.containsKey("nextPage")) {
+      nextPage = keyValues["nextPage"];
     }
     if (keyValues.containsKey("offset")) {
       offset = keyValues["offset"];
