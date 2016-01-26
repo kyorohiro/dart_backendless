@@ -93,6 +93,28 @@ class BackendlessData {
     return await searchBasicData(tableName, userToken: userToken, command: null, version: version, nextPage: nextPage, advance: advance);
   }
 
+  Future<SearchBasicDataResult> searchNextPage(String nextPage, {String userToken: null}) async {
+    TinyNetRequester requester = await this.builder.createRequester();
+    Map<String, String> headers = {
+      "application-id": applicationId, //
+      "secret-key": secretKey, //
+      "application-type": "REST", //
+      "Content-Type": "application/json" //
+    };
+    if (userToken != null) {
+      headers["user-token"] = userToken;
+    }
+
+    String url = nextPage;
+    print("#### ${url}");
+    TinyNetRequesterResponse resonse = await requester.request(
+        TinyNetRequester.TYPE_GET, //
+        url, //
+        headers: headers);
+
+    return new SearchBasicDataResult.fromResponse(resonse);
+  }
+
   Future<SearchBasicDataResult> searchBasicData(String tableName, {String advance: "", String command: null, String userToken: null, String version: "v1", String nextPage: null}) async {
     TinyNetRequester requester = await this.builder.createRequester();
     Map<String, String> headers = {
