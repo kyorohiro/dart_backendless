@@ -19,7 +19,10 @@ class ParseUser {
 
   ParseUser(this.builder, this.applicationId, this.secretKey) {}
 
-  Future regist(String username, String password, {Map<String, Object> properties: {}, String version: "1"}) async {
+  Future signup(String username, String password, {Map<String, Object> properties:null, String version: "1"}) async {
+    if(properties == null) {
+      properties = {};
+    }
     TinyNetRequester requester = await this.builder.createRequester();
     properties[REGIST_NAME] = username;
     properties[REGIST_PASSWORD] = password;
@@ -35,27 +38,38 @@ class ParseUser {
         }, //
         data: JSON.encode(properties) //
         );
-    return null;
+    return new SignUpUserResult.fromResponse(resonse);
+  }
+}
+
+class SignUpUserResult extends ParseResultBase {
+  SignUpUserResult.fromResponse(TinyNetRequesterResponse r):super.fromResponse (r) {
   }
 }
 
 class ParseResultBase {
-  bool isOk = false;
-  String objectId = "";
-  String message = "";
-  int code = 9999;
   Map keyValues = {};
-  int statusCode = 0;
   String utf8binary = "";
   Uint8List binary = new Uint8List.fromList([]);
 
+  //
+  String error = "";
+  int code = 9999;
+
+  //
+  int statusCode = 0;
+  bool isOk = false;
+
+  //
+  String objectId = "";
+  String updatedAt = "";
+  String createdAt = "";
+  String locationHeaderValue = "";
+
   ParseResultBase.fromResponse(TinyNetRequesterResponse r, {bool isJson: true}) {
     statusCode = r.status;
-    if (r.status == 200) {
-      isOk = true;
-    } else {
-      isOk = false;
-    }
+    isOk = ((r.status == 200 || r.status == 201)?true:false);
+    locationHeaderValue = r.headers["Location"];
 
     try {
       binary = new Uint8List.fromList(r.response.asUint8List());
@@ -72,14 +86,25 @@ class ParseResultBase {
         }
       }
     } catch (e) {}
+    //
+    //
     if (keyValues.containsKey("objectId")) {
       objectId = keyValues["objectId"];
     }
+    if (keyValues.containsKey("createdAt")) {
+      createdAt = keyValues["createdAt"];
+    }
+    if (keyValues.containsKey("updatedAt")) {
+      updatedAt = keyValues["updatedAt"];
+    }
+
+    //
+    //
     if (keyValues.containsKey("code")) {
       code = keyValues["code"];
     }
-    if (keyValues.containsKey("message")) {
-      message = keyValues["message"];
+    if (keyValues.containsKey("error")) {
+      error = keyValues["error"];
     }
   }
 }

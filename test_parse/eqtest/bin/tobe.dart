@@ -17,6 +17,7 @@ void main(List<String> args) {
   {
     List<int> v1 = BASE64.decode(key);
     List<int> d1 = BASE64.decode(value);
+    print("${v1.length} ${d1.length}");
     for (int i = 0; i < v1.length && i < d1.length; i++) {
       d1[i] = d1[i] ^ v1[i];
     }
