@@ -54,7 +54,5 @@ class BackendlessResultBase {
       message = keyValues["message"];
     }
 
-
-
   }
 }

@@ -26,7 +26,7 @@ class BackendlessUser {
     return new LoginResult.fromResponse(resonse);
   }
 
-  Future<RegistResult> regist(Map<String, String> properties, {String version: "v1"}) async {
+  Future<RegistResult> regist(Map<String, Object> properties, {String version: "v1"}) async {
     TinyNetRequester requester = await this.builder.createRequester();
     TinyNetRequesterResponse resonse = await requester.request(
         TinyNetRequester.TYPE_POST, //
