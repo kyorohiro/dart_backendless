@@ -4,6 +4,7 @@ class ParseUser {
   static final String REGIST_NAME = "username";
   static final String REGIST_PASSWORD = "password";
   static final String REGIST_EMAIL = "email";
+  static final String REFIST_EMAIL_VERIFIED = "emailVerified";
 
   TinyNetBuilder builder;
   String applicationId;
@@ -11,8 +12,7 @@ class ParseUser {
 
   ParseUser(this.builder, this.applicationId, this.secretKey) {}
 
-  Future signup(String username, String password,
-    {Map<String, Object> properties: null, String revocableSession:"1", String version: "1"}) async {
+  Future signup(String username, String password, {Map<String, Object> properties: null, String revocableSession: "1", String version: "1"}) async {
     if (properties == null) {
       properties = {};
     }
@@ -34,20 +34,18 @@ class ParseUser {
     return new SignUpUserResult.fromResponse(resonse);
   }
 
-  Future<LoginUserResult> login(String username, String password,
-    {String revocableSession:"1", String version: "1"}) async {
+  Future<LoginUserResult> login(String username, String password, {String revocableSession: "1", String version: "1"}) async {
     TinyNetRequester requester = await this.builder.createRequester();
 
     TinyNetRequesterResponse resonse = await requester.request(
         TinyNetRequester.TYPE_GET, //
         Uri.encodeFull("https://api.parse.com/${version}/login?username=${username}&password=${password}"), //
         headers: {
-          "X-Parse-Application-Id": applicationId, //
-          "X-Parse-REST-API-Key": secretKey, //
-          "X-Parse-Revocable-Session": revocableSession, //
-          "Content-Type": "application/json" //
-        }
-        );
+      "X-Parse-Application-Id": applicationId, //
+      "X-Parse-REST-API-Key": secretKey, //
+      "X-Parse-Revocable-Session": revocableSession, //
+      "Content-Type": "application/json" //
+    });
     return new LoginUserResult.fromResponse(resonse);
   }
 
@@ -57,11 +55,10 @@ class ParseUser {
         TinyNetRequester.TYPE_POST, //
         "https://api.parse.com/${version}/logout", //
         headers: {
-          "X-Parse-Application-Id": applicationId, //
-          "X-Parse-REST-API-Key": secretKey, //
-          "X-Parse-Session-Token": seesionToken, //
-        }
-      );
+      "X-Parse-Application-Id": applicationId, //
+      "X-Parse-REST-API-Key": secretKey, //
+      "X-Parse-Session-Token": seesionToken, //
+    });
     return new LogoutUserResult.fromResponse(resonse);
   }
 
@@ -71,24 +68,42 @@ class ParseUser {
         TinyNetRequester.TYPE_DELETE, //
         "https://api.parse.com/${version}/users/${objectId}", //
         headers: {
-          "X-Parse-Application-Id": applicationId, //
-          "X-Parse-REST-API-Key": secretKey, //
-          "X-Parse-Session-Token": seesionToken, //
-        }
-      );
+      "X-Parse-Application-Id": applicationId, //
+      "X-Parse-REST-API-Key": secretKey, //
+      "X-Parse-Session-Token": seesionToken, //
+    });
     return new DeleteUserResult.fromResponse(resonse);
   }
+
+  //
+  // todo test
+  Future<RequestPasswordResetResult> requestPasswordReset(String email, {String version: "1"}) async {
+    TinyNetRequester requester = await this.builder.createRequester();
+    TinyNetRequesterResponse resonse = await requester.request(
+        TinyNetRequester.TYPE_POST, //
+        "https://api.parse.com/${version}/requestPasswordReset", //
+        headers: {
+          "X-Parse-Application-Id": applicationId, //
+          "X-Parse-REST-API-Key": secretKey,
+          "Content-Type": "application/json", //
+        },
+        data: JSON.encode({"email": email}));
+    return new RequestPasswordResetResult.fromResponse(resonse);
+  }
+}
+
+class RequestPasswordResetResult extends ParseResultBase {
+  RequestPasswordResetResult.fromResponse(TinyNetRequesterResponse r) : super.fromResponse(r) {}
 }
 
 class LogoutUserResult extends ParseResultBase {
-  LogoutUserResult.fromResponse(TinyNetRequesterResponse r) : super.fromResponse(r) {
-  }
+  LogoutUserResult.fromResponse(TinyNetRequesterResponse r) : super.fromResponse(r) {}
 }
 
 class LoginUserResult extends ParseResultBase {
-  String sessionToken="";
+  String sessionToken = "";
   LoginUserResult.fromResponse(TinyNetRequesterResponse r) : super.fromResponse(r) {
-    if(keyValues.containsKey("sessionToken")) {
+    if (keyValues.containsKey("sessionToken")) {
       sessionToken = this.keyValues["sessionToken"];
     }
   }
