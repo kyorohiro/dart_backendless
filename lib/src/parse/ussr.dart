@@ -106,7 +106,12 @@ class ParseUser {
 
 
 class RetrieveUsersResetResult extends ParseResultBase {
-  RetrieveUsersResetResult.fromResponse(TinyNetRequesterResponse r) : super.fromResponse(r) {}
+  String userName = "";
+  RetrieveUsersResetResult.fromResponse(TinyNetRequesterResponse r) : super.fromResponse(r) {
+    if(keyValues.containsKey("username")) {
+      userName = keyValues["username"];
+    }
+  }
 }
 
 class RequestPasswordResetResult extends ParseResultBase {
