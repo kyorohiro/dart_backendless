@@ -46,9 +46,13 @@ class UserTest {
     LogoutUserResult logoutResult = await user.logout(loginResult.sessionToken);
     print("${logoutResult.statusCode} ${logoutResult.keyValues} ${logoutResult.locationHeaderValue}");
 
+    RetrieveUsersResetResult retrieveResult = await user.retrieveUsers(loginResult.objectId);
+    print("${retrieveResult.statusCode} ${retrieveResult.keyValues} ${retrieveResult.locationHeaderValue}");
+
 
     LoginUserResult loginResult2 = await user.login("test", "asdfasdf");
     print("${loginResult2.statusCode} ${loginResult2.keyValues} ${loginResult2.locationHeaderValue}");
+
 
     DeleteUserResult deleteResult = await user.deleteUser(loginResult2.objectId, loginResult2.sessionToken);
     print("${deleteResult.statusCode} ${deleteResult.keyValues} ${deleteResult.locationHeaderValue}");

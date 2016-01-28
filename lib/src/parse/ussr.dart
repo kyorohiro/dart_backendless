@@ -90,6 +90,23 @@ class ParseUser {
         data: JSON.encode({"email": email}));
     return new RequestPasswordResetResult.fromResponse(resonse);
   }
+
+  Future<RetrieveUsersResetResult> retrieveUsers(String objectId, {String version: "1"}) async{
+    TinyNetRequester requester = await this.builder.createRequester();
+    TinyNetRequesterResponse response = await requester.request(
+        TinyNetRequester.TYPE_GET, //
+        "https://api.parse.com/${version}/users/${objectId}", //
+        headers: {
+          "X-Parse-Application-Id": applicationId, //
+          "X-Parse-REST-API-Key": secretKey
+        });
+    return new RetrieveUsersResetResult.fromResponse(response);
+  }
+}
+
+
+class RetrieveUsersResetResult extends ParseResultBase {
+  RetrieveUsersResetResult.fromResponse(TinyNetRequesterResponse r) : super.fromResponse(r) {}
 }
 
 class RequestPasswordResetResult extends ParseResultBase {
