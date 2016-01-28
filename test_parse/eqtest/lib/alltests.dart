@@ -42,5 +42,9 @@ class UserTest {
 
     LoginUserResult loginResult = await user.login("kyorohiro", "asdfasdf");
     print("${loginResult.statusCode} ${loginResult.keyValues} ${loginResult.locationHeaderValue} ${loginResult.sessionToken}");
+
+    LogoutUserResult logoutResult = await user.logout(loginResult.sessionToken);
+    print("${logoutResult.statusCode} ${logoutResult.keyValues} ${logoutResult.locationHeaderValue}");
+
   }
 }

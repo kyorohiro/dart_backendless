@@ -54,7 +54,7 @@ class ParseUser {
   Future<LogoutUserResult> logout(String seesionToken, {String version: "1"}) async {
     TinyNetRequester requester = await this.builder.createRequester();
     TinyNetRequesterResponse resonse = await requester.request(
-        TinyNetRequester.TYPE_DELETE, //
+        TinyNetRequester.TYPE_POST, //
         "https://api.parse.com/${version}/logout", //
         headers: {
           "X-Parse-Application-Id": applicationId, //
