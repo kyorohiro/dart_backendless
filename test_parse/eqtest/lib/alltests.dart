@@ -37,14 +37,21 @@ void kicktests(TinyNetBuilder builder) {
 class UserTest {
   kick(TinyNetBuilder builder, String applicationId, String secretKey) async {
     ParseUser user = new ParseUser(builder, applicationId, secretKey);
-    SignUpUserResult signupResult = await user.signup("kyorohiro", "asdfasdf");
+    SignUpUserResult signupResult = await user.signup("test", "asdfasdf");
     print("${signupResult.statusCode} ${signupResult.keyValues} ${signupResult.locationHeaderValue}");
 
-    LoginUserResult loginResult = await user.login("kyorohiro", "asdfasdf");
+    LoginUserResult loginResult = await user.login("test", "asdfasdf");
     print("${loginResult.statusCode} ${loginResult.keyValues} ${loginResult.locationHeaderValue} ${loginResult.sessionToken}");
 
     LogoutUserResult logoutResult = await user.logout(loginResult.sessionToken);
     print("${logoutResult.statusCode} ${logoutResult.keyValues} ${logoutResult.locationHeaderValue}");
+
+
+    LoginUserResult loginResult2 = await user.login("test", "asdfasdf");
+    print("${loginResult2.statusCode} ${loginResult2.keyValues} ${loginResult2.locationHeaderValue}");
+
+    DeleteUserResult deleteResult = await user.deleteUser(loginResult2.objectId, loginResult2.sessionToken);
+    print("${deleteResult.statusCode} ${deleteResult.keyValues} ${deleteResult.locationHeaderValue}");
 
   }
 }
