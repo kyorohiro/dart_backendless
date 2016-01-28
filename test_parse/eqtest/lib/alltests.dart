@@ -37,7 +37,10 @@ void kicktests(TinyNetBuilder builder) {
 class UserTest {
   kick(TinyNetBuilder builder, String applicationId, String secretKey) async {
     ParseUser user = new ParseUser(builder, applicationId, secretKey);
-    SignUpUserResult result = await user.signup("kyorohiro", "asdfasdf");
-    print("${result.statusCode} ${result.keyValues} ${result.locationHeaderValue}");
+    SignUpUserResult signupResult = await user.signup("kyorohiro", "asdfasdf");
+    print("${signupResult.statusCode} ${signupResult.keyValues} ${signupResult.locationHeaderValue}");
+
+    LoginUserResult loginResult = await user.login("kyorohiro", "asdfasdf");
+    print("${loginResult.statusCode} ${loginResult.keyValues} ${loginResult.locationHeaderValue} ${loginResult.sessionToken}");
   }
 }

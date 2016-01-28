@@ -4,23 +4,16 @@ class ParseUser {
   static final String REGIST_NAME = "username";
   static final String REGIST_PASSWORD = "password";
   static final String REGIST_EMAIL = "email";
-  /*
-  curl -X POST \
-    -H "X-Parse-Application-Id: TD5KN7BJnmG2SKSytS11lS5Ve7s4lMEIFcyXxVj6" \
-    -H "X-Parse-REST-API-Key: WGtQFSnPMYoJLOownwg7HXnuoNWo78gdM8sS7wMZ" \
-    -H "X-Parse-Revocable-Session: 1" \
-    -H "Content-Type: application/json" \
-    -d '{"username":"cooldude6","password":"p_n7!-e8","phone":"415-392-0202"}' \
-    https://api.parse.com/1/users
-    */
+
   TinyNetBuilder builder;
   String applicationId;
   String secretKey;
 
   ParseUser(this.builder, this.applicationId, this.secretKey) {}
 
-  Future signup(String username, String password, {Map<String, Object> properties:null, String version: "1"}) async {
-    if(properties == null) {
+  Future signup(String username, String password,
+    {Map<String, Object> properties: null, String revocableSession:"1", String version: "1"}) async {
+    if (properties == null) {
       properties = {};
     }
     TinyNetRequester requester = await this.builder.createRequester();
@@ -33,18 +26,80 @@ class ParseUser {
         headers: {
           "X-Parse-Application-Id": applicationId, //
           "X-Parse-REST-API-Key": secretKey, //
-          "X-Parse-Revocable-Session": "1", //
+          "X-Parse-Revocable-Session": revocableSession, //
           "Content-Type": "application/json" //
         }, //
         data: JSON.encode(properties) //
         );
     return new SignUpUserResult.fromResponse(resonse);
   }
+
+  Future<LoginUserResult> login(String username, String password,
+    {String revocableSession:"1", String version: "1"}) async {
+    TinyNetRequester requester = await this.builder.createRequester();
+
+    TinyNetRequesterResponse resonse = await requester.request(
+        TinyNetRequester.TYPE_GET, //
+        Uri.encodeFull("https://api.parse.com/${version}/login?username=${username}&password=${password}"), //
+        headers: {
+          "X-Parse-Application-Id": applicationId, //
+          "X-Parse-REST-API-Key": secretKey, //
+          "X-Parse-Revocable-Session": revocableSession, //
+          "Content-Type": "application/json" //
+        }
+        );
+    return new LoginUserResult.fromResponse(resonse);
+  }
+
+  Future<LogoutUserResult> logout(String seesionToken, {String version: "1"}) async {
+    TinyNetRequester requester = await this.builder.createRequester();
+    TinyNetRequesterResponse resonse = await requester.request(
+        TinyNetRequester.TYPE_DELETE, //
+        "https://api.parse.com/${version}/logout", //
+        headers: {
+          "X-Parse-Application-Id": applicationId, //
+          "X-Parse-REST-API-Key": secretKey, //
+          "X-Parse-Session-Token": seesionToken, //
+        }
+      );
+    return new LogoutUserResult.fromResponse(resonse);
+  }
+
+  Future<DeleteUserResult> deleteUser(String objectId, String seesionToken, {String version: "1"}) async {
+    TinyNetRequester requester = await this.builder.createRequester();
+    TinyNetRequesterResponse resonse = await requester.request(
+        TinyNetRequester.TYPE_DELETE, //
+        "https://api.parse.com/${version}/users/${objectId}", //
+        headers: {
+          "X-Parse-Application-Id": applicationId, //
+          "X-Parse-REST-API-Key": secretKey, //
+          "X-Parse-Session-Token": seesionToken, //
+        }
+      );
+    return new DeleteUserResult.fromResponse(resonse);
+  }
+}
+
+class LogoutUserResult extends ParseResultBase {
+  LogoutUserResult.fromResponse(TinyNetRequesterResponse r) : super.fromResponse(r) {
+  }
+}
+
+class LoginUserResult extends ParseResultBase {
+  String sessionToken="";
+  LoginUserResult.fromResponse(TinyNetRequesterResponse r) : super.fromResponse(r) {
+    if(keyValues.containsKey("sessionToken")) {
+      sessionToken = this.keyValues["sessionToken"];
+    }
+  }
 }
 
 class SignUpUserResult extends ParseResultBase {
-  SignUpUserResult.fromResponse(TinyNetRequesterResponse r):super.fromResponse (r) {
-  }
+  SignUpUserResult.fromResponse(TinyNetRequesterResponse r) : super.fromResponse(r) {}
+}
+
+class DeleteUserResult extends ParseResultBase {
+  DeleteUserResult.fromResponse(TinyNetRequesterResponse r) : super.fromResponse(r) {}
 }
 
 class ParseResultBase {
@@ -68,7 +123,7 @@ class ParseResultBase {
 
   ParseResultBase.fromResponse(TinyNetRequesterResponse r, {bool isJson: true}) {
     statusCode = r.status;
-    isOk = ((r.status == 200 || r.status == 201)?true:false);
+    isOk = ((r.status == 200 || r.status == 201) ? true : false);
     locationHeaderValue = r.headers["Location"];
 
     try {
