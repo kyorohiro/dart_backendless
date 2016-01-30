@@ -1,4 +1,4 @@
-name: ttt
+name: test_net
 description: A minimal Flutter project.
 dependencies:
   umiuni2d_netbox:

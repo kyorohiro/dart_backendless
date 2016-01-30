@@ -1,8 +1,0 @@
-name: dartio
-version: 0.0.1
-description: A simple console application.
-dependencies:
-  umiuni2d_netbox:
-    path: ../../
-dev_dependencies:
-  unittest: any
