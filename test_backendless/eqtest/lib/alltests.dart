@@ -117,12 +117,12 @@ class TestFile {
       DownloadBinaryResult ret3 = await file.downloadBinary("tests/text1.txt", ret2.userToken);
       print("\n#VVVVVV# ${ret3.keyValues}");
       expect(true, ret3.isOk);
-
+/*
       RenameFileResult ret5 = await file.renameFile("tests/text1.txt", "text2.txt", ret2.userToken);
       print("\n#ZZZZZZ# ${ret5.keyValues}");
       expect(true, ret5.isOk);
-
-      MoveFileResult ret6 = await file.moveFile("tests/text2.txt", "tests/text3.txt", ret2.userToken);
+*/
+      MoveFileResult ret6 = await file.moveFile("tests/text1.txt", "tests/text3.txt", ret2.userToken);
       print("\n#ZZZZZA# ${ret6.keyValues}");
       expect(true, ret6.isOk);
 

@@ -75,7 +75,7 @@ class BackendlessFile {
 
     return new DeleteFileResult.fromResponse(resonse);
   }
-
+/*
   Future<RenameFileResult> renameFile(String oldName, String newName, String userToken, {String version: "v1"}) async {
     TinyNetRequester requester = await this.builder.createRequester();
     Map<String, String> headers = {
@@ -96,7 +96,7 @@ class BackendlessFile {
 
     return new RenameFileResult.fromResponse(resonse);
   }
-
+*/
   Future<MoveFileResult> moveFile(String oldPath, String newPath, String userToken, {String version: "v1"}) async {
     TinyNetRequester requester = await this.builder.createRequester();
     Map<String, String> headers = {
