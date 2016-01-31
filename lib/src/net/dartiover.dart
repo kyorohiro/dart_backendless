@@ -25,10 +25,8 @@ class TinyNetDartIoHttpRequester extends TinyNetRequester {
     } else {
       throw new UnsupportedError("");
     }
-    req.headers.removeAll("Accept-Encoding");
     for (String k in headers.keys) {
       req.headers.set(k, headers[k]);
-//      req.headers.add(k, headers[k]);
     }
     if (data != null) {
       if (data == ByteBuffer) {
@@ -42,6 +40,13 @@ class TinyNetDartIoHttpRequester extends TinyNetRequester {
     await for(List<int> v in res) {
       vv.addAll(v);
     }
-    return new TinyNetRequesterResponse(res.statusCode, headers, new Uint8List.fromList(vv).buffer);
+    Map<String,String> retHeader = {};
+    res.headers.forEach((a,b){
+      for(String v in b) {
+      //  print("header=####=${a} ${v}");
+        retHeader[a] = v;
+      }
+    });
+    return new TinyNetRequesterResponse(res.statusCode, retHeader, new Uint8List.fromList(vv).buffer);
   }
 }

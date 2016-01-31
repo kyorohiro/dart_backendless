@@ -28,12 +28,15 @@ class BackendlessFile {
     } else {
       throw new UnsupportedError("unsupport data type");
     }
+    print("${url} ${data}");
     TinyNetRequesterResponse resonse = await requester.request(
         TinyNetRequester.TYPE_PUT, //
-        url, //
+        Uri.encodeFull(url), //
         headers: headers, //
         data: data);
-
+        print("######STATUS##${resonse.status}");
+        print("##BODY##${UTF8.decode(resonse.response.asUint8List())}");
+       print("##HEADER##${resonse.headers}");
     return new UploadBinaryResult.fromResponse(resonse);
   }
 

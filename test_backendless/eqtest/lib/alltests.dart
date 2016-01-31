@@ -30,6 +30,7 @@ String get appId {
 }
 
 void kicktests(TinyNetBuilder builder) {
+
   TestUser user = new TestUser();
   user.kick(builder, appId, restId);
 
@@ -111,7 +112,7 @@ class TestFile {
 
       BackendlessFile file = new BackendlessFile(builder, applicationId, secretKey);
       UploadBinaryResult ret1 = await file.uploadBinary("tests/text1.txt", "Hello World!!", ret2.userToken);
-      print("\n#AAAAA# ${ret1.keyValues}");
+      print("\n#AAAAA# ${ret1.keyValues} ${ret1.statusCode} ${conv.UTF8.decode(ret1.binary)} ${ret2.userToken}");
       expect(true, ret1.isOk);
 
       DownloadBinaryResult ret3 = await file.downloadBinary("tests/text1.txt", ret2.userToken);

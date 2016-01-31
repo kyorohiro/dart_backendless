@@ -19,6 +19,7 @@ class TinyNetHtml5HttpRequester extends TinyNetRequester {
       for (String k in headers.keys) {
         req.setRequestHeader(k, headers[k]);
       }
+      
       req.onReadyStateChange.listen((html.ProgressEvent e) {
         if (req.readyState == html.HttpRequest.DONE) {
           c.complete(new TinyNetRequesterResponse(req.status, req.responseHeaders, req.response));
