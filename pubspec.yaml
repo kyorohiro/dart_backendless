@@ -6,6 +6,6 @@ environment:
 dependencies:
   crypto: any
   flutter:
-    path: /Users/kyorohiro/tools/git/flutter_master/packages/flutter
+    path: /Users/kyorohiro/tools/git/flutter/packages/flutter
 dev_dependencies:
   test: '>=0.12.0 <0.13.0'
