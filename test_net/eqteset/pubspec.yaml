@@ -1,6 +1,10 @@
 name: test_net
 description: A minimal Flutter project.
 dependencies:
+  browser: '>=0.10.0 <0.11.0'
   umiuni2d_netbox:
     path: ../../
   unittest: any
+  dart_to_js_script_rewriter: ^0.1.0
+transformers:
+- dart_to_js_script_rewriter

@@ -5,8 +5,10 @@ import 'package:umiuni2d_netbox/tinynet.dart';
 import 'package:unittest/unittest.dart';
 
 kicktest(TinyNetBuilder builder) async {
+
   group("", () {
     test("post", () async {
+
       TinyNetRequester requester = await builder.createRequester();
       TinyNetRequesterResponse response = await requester.request(
           TinyNetRequester.TYPE_POST, //

@@ -5,6 +5,7 @@
 import 'package:umiuni2d_netbox/tinynet_html5.dart';
 import 'package:test_net/alltest.dart' as t;
 main() async {
+          print("------");
   TinyNetHtml5Builder builder = new TinyNetHtml5Builder();
   t.kicktest(builder);
 }
