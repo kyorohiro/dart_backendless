@@ -69,6 +69,16 @@ class TinyNetFlutterHttpRequester extends TinyNetRequester {
     print("#####---------(6) ${response.statusCode} ${UTF8.decode(d1.buffer.asUint8List())}");
     return new TinyNetRequesterResponse(response.statusCode, retHeader, d1.buffer);
   }
+
+
+  Future<TinyNetRequesterResponse> requestA(String type, String url, {Object data: null, Map<String, String> headers: null}) async {
+    if (headers == null) {
+      headers = {};
+    }
+    // url, {Map<String, String> headers, body}
+    ht.Response response = await ht.post(url, headers:headers, body:data);
+    return new TinyNetRequesterResponse(response.statusCode, {}, response.bodyBytes.buffer);
+  }
 }
 
 /*
