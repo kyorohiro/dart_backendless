@@ -14,8 +14,9 @@ dependencies:
   umiuni2d_netbox:
     path: ../../
   flutter:
-    path: /Users/kyorohiro/tools/git/flutter_master/packages/flutter
-
+    path: /Users/kyorohiro/tools/git/flutter/packages/flutter
+  tetorica:
+    path: ../../../tetorica
 dev_dependencies:
   unittest: any
 
