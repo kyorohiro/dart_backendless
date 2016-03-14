@@ -78,15 +78,15 @@ class BackendlessData {
   }
 
   Future<SearchBasicDataResult> searchBasicDataFromFirst(String tableName, {String command: null, String userToken: null, String version: "v1"}) async {
-    return await searchBasicData(tableName, userToken: userToken, command: "first", version: version);
+    return await searchBasicData(tableName, userToken: userToken, command: "/first", version: version);
   }
 
   Future<SearchBasicDataResult> searchBasicDataFromLast(String tableName, {String command: null, String userToken: null, String version: "v1"}) async {
-    return await searchBasicData(tableName, userToken: userToken, command: "last", version: version);
+    return await searchBasicData(tableName, userToken: userToken, command: "/last", version: version);
   }
 
   Future<SearchBasicDataResult> searchBasicDataFromObjectId(String tableName, String objectId, {String command: null, String userToken: null, String version: "v1"}) async {
-    return await searchBasicData(tableName, userToken: userToken, command: "${objectId}", version: version);
+    return await searchBasicData(tableName, userToken: userToken, command: "/${objectId}", version: version);
   }
 
   Future<SearchBasicDataResult> searchBasicDataCollection(String tableName, {String advance: "", String nextPage: null, String command: null, String userToken: null, String version: "v1"}) async {
@@ -129,7 +129,7 @@ class BackendlessData {
 
     String commandProp = "";
     if (command != null) {
-      commandProp = "/${command}";
+      commandProp = "${command}";
     }
     String url = "";
     if (nextPage == null) {
