@@ -1,0 +1,13 @@
+name: umiuni2d_netbox.flutter
+description: A starting point for Dart libraries or applications.
+version: 0.0.1
+environment:
+  sdk: '>=1.0.0 <2.0.0'
+dependencies:
+  crypto: any
+  umiuni2d_netbox:
+    path: ../core
+  flutter:
+    path: /Users/kyorohiro/tools/git/flutter/packages/flutter
+dev_dependencies:
+  test: '>=0.12.0 <0.13.0'

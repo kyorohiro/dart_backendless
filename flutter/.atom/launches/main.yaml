@@ -1,0 +1,13 @@
+# Flutter launch configuration for test_backendless/eqtest/lib/main.dart.
+type: flutter
+path: test_backendless/eqtest/lib/main.dart
+
+flutter:
+  # Enable or disable checked mode.
+  checked: true
+  # Enable or disable debugging.
+  debug: true
+  # The starting route for the app.
+  route:
+  # Additional args for the flutter run command.
+  args:
