@@ -14,7 +14,7 @@ dependencies:
     path: ../../../html5
   tetorica:
     path: ../../../../tetorica
-  unittest: any
+  test: any
   dart_to_js_script_rewriter: ^0.1.0
   flutter:
     path: /Users/kyorohiro/tools/git/flutter/packages/flutter

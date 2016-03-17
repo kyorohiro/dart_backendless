@@ -2,7 +2,7 @@ library alltest;
 
 import 'dart:convert';
 import 'package:umiuni2d_netbox/tinynet.dart';
-import 'package:unittest/unittest.dart';
+import 'package:test/test.dart';
 
 kicktest(TinyNetBuilder builder) async {
 
