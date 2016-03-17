@@ -4,6 +4,7 @@
 build/
 packages
 pubspec.lock
+.DS_Store
 
 # Files created by dart2js
 *.dart.js
