@@ -1,4 +1,4 @@
-import 'package:umiuni2d_netbox/tinynet_tetorica.dart';
+import 'package:umiuni2d_netbox.tetorica/tinynet_tetorica.dart';
 import 'package:tetorica/net_dartio.dart' as tet;
 import 'package:test_backendless/alltests.dart' as t;
 

@@ -12,11 +12,19 @@ dependencies:
   dart_to_js_script_rewriter: '^0.1.0'
   crypto: any
   umiuni2d_netbox:
-    path: ../../
+    path: ../../../core
+  umiuni2d_netbox.dartio:
+    path: ../../../dartio
+  umiuni2d_netbox.tetorica:
+    path: ../../../tetorica
+  umiuni2d_netbox.flutter:
+    path: ../../../flutter
+  umiuni2d_netbox.html5:
+    path: ../../../html5
+  tetorica:
+    path: ../../../../tetorica
   flutter:
     path: /Users/kyorohiro/tools/git/flutter/packages/flutter
-  tetorica:
-    path: ../../../tetorica
 dev_dependencies:
   unittest: any
 

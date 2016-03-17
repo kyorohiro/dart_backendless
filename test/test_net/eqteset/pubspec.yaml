@@ -1,0 +1,22 @@
+name: test_net
+description: A minimal Flutter project.
+dependencies:
+  browser: '>=0.10.0 <0.11.0'
+  umiuni2d_netbox:
+    path: ../../../core
+  umiuni2d_netbox.dartio:
+    path: ../../../dartio
+  umiuni2d_netbox.tetorica:
+    path: ../../../tetorica
+  umiuni2d_netbox.flutter:
+    path: ../../../flutter
+  umiuni2d_netbox.html5:
+    path: ../../../html5
+  tetorica:
+    path: ../../../../tetorica
+  unittest: any
+  dart_to_js_script_rewriter: ^0.1.0
+  flutter:
+    path: /Users/kyorohiro/tools/git/flutter/packages/flutter
+transformers:
+- dart_to_js_script_rewriter

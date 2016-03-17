@@ -1,4 +1,4 @@
-import 'package:umiuni2d_netbox/tinynet_flutter.dart';
+import 'package:umiuni2d_netbox.flutter/tinynet_flutter.dart';
 import 'package:test_net/alltest.dart' as t;
 import 'dart:async';
 import 'package:flutter/material.dart';
